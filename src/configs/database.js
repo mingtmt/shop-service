@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const env = require('./src/configs/env');
+const mongoose = require('mongoose')
+const env = require('./src/configs/env')

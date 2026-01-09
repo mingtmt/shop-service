@@ -1,6 +1,6 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import js from '@eslint/js'
+import globals from 'globals'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default [
   {
@@ -35,4 +35,4 @@ export default [
   },
 
   eslintPluginPrettierRecommended,
-];
+]
