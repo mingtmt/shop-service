@@ -5,12 +5,15 @@ const app = require('./src/app')
 const env = require('./src/configs/env')
 const logger = require('./src/configs/logger')
 const db = require('./src/configs/database')
+const { checkOverload } = require('./src/utils/check.connect')
 
 let server
 
 const startServer = async () => {
   try {
     await db.connect()
+
+    checkOverload()
 
     server = app.listen(env.PORT, () => {
       logger.info(`Server running on port ${env.PORT}`)

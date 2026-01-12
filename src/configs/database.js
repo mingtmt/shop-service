@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose')
 const env = require('./env')
+const { countConnect } = require('../utils/check.connect')
 
 class Database {
   constructor() {
@@ -21,6 +22,8 @@ class Database {
       })
 
       console.log(`Connected Mongodb Success! State:`, mongoose.connection.readyState)
+
+      countConnect()
     } catch (err) {
       console.error(`Error Connect to MongoDB: ${err.message}`)
     }
