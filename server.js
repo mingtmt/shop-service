@@ -42,18 +42,18 @@ const exitHandler = async () => {
 }
 
 process.on('SIGINT', () => {
-  console.log('System interrupt signal detected. Exiting...')
+  logger.info('System interrupt signal detected. Exiting...')
   exitHandler()
 })
 
 process.on('SIGTERM', () => {
-  console.log('System termination signal detected. Exiting...')
+  logger.info('System termination signal detected. Exiting...')
   exitHandler()
 })
 
 process.once('SIGUSR2', () => {
   mongoose.connection.close(() => {
-    console.log('Mongoose disconnected through nodemon restart')
+    logger.info('Mongoose disconnected through nodemon restart')
     process.kill(process.pid, 'SIGUSR2')
   })
 })
