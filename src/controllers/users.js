@@ -1,45 +1,42 @@
 'use strict'
 
 const UsersService = require('../services/users')
+const { OK, Created } = require('../core/successResponse')
 
 class UsersController {
-  async getAllUsers(req, res, next) {
-    try {
-      const users = await UsersService.getAllUsers()
-      res.status(200).json({
-        success: true,
-        count: users.length,
-        data: users,
-      })
-    } catch (error) {
-      next(error)
-    }
+  getAllUsers = async (req, res) => {
+    new OK({
+      message: 'Get all users success',
+      data: await UsersService.getAllUsers(),
+    }).send(res)
   }
 
-  async getUserById(req, res, next) {
-    try {
-      const user = await UsersService.getUserById(req.params.id)
-      res.status(200).json({
-        success: true,
-        data: user,
-      })
-    } catch (error) {
-      next(error)
-    }
+  getUserById = async (req, res) => {
+    new OK({
+      message: `Get user ${req.params.id} success`,
+      data: await UsersService.getUserById(req.params.id),
+    }).send(res)
   }
 
-  async register(req, res, next) {
-    try {
-      const user = req.body
-      const savedUser = await UsersService.createUser(user)
-      res.status(201).json({
-        success: true,
-        message: 'User registered successfully',
-        data: savedUser,
-      })
-    } catch (error) {
-      next(error)
-    }
+  createUser = async (req, res) => {
+    new Created({
+      message: 'User registered successfully',
+      data: await UsersService.createUser(req.body),
+    }).send(res)
+  }
+
+  updateUser = async (req, res) => {
+    new OK({
+      message: 'User updated successfully',
+      data: await UsersService.updateUser(req.params.id, req.body),
+    }).send(res)
+  }
+
+  deleteUser = async (req, res) => {
+    new OK({
+      message: 'User deleted successfully',
+      metadata: await UsersService.deleteUser(req.params.id),
+    }).send(res)
   }
 }
 

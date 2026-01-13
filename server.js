@@ -5,7 +5,7 @@ const app = require('./src/app')
 const env = require('./src/configs/env')
 const logger = require('./src/configs/logger')
 const db = require('./src/configs/database')
-const { checkOverload } = require('./src/utils/check.connect')
+const { checkOverload } = require('./src/utils/checkConnect')
 
 let server
 

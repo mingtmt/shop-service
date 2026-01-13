@@ -1,74 +1,62 @@
 'use strict'
 
 const logger = require('../configs/logger')
+const { StatusCode, ErrorCode } = require('../core/constants')
+const { NotFoundError } = require('../core/errors')
 
-const errorHandler = (err, req, res, next) => {
-  logger.error('Error occurred:', {
-    message: err.message,
-    stack: err.stack,
+const errorHandler = (err, req, res) => {
+  const error = err
+
+  const statusCode = error.statusCode || StatusCode.INTERNAL_SERVER_ERROR
+  const errorCode = error.errorCode || ErrorCode.INTERNAL_ERROR
+  const message = error.message || 'Internal Server Error'
+
+  const logData = {
+    statusCode,
+    errorCode,
+    message,
     url: req.url,
     method: req.method,
-    body: req.body,
-    params: req.params,
-  })
-
-  let statusCode = err.statusCode || 500
-  let message = err.message || 'Internal Server Error'
-  let code = err.code || 'INTERNAL_ERROR'
-
-  // Handle MongoDB Validation Error
-  if (err.name === 'ValidationError') {
-    statusCode = 400
-    code = 'VALIDATION_ERROR'
-    message = Object.values(err.errors)
-      .map((e) => e.message)
-      .join(', ')
   }
 
-  // Handle MongoDB Duplicate Key Error (E11000)
-  if (err.code === 11000) {
-    statusCode = 409
-    code = 'DUPLICATE_ERROR'
-
-    // Extract field name from error message
-    const field = Object.keys(err.keyPattern)[0]
-    message = `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`
+  if (statusCode >= 500) {
+    logger.error('Critical Error:', {
+      ...logData,
+      stack: error.stack,
+      body: req.body,
+      params: req.params,
+      query: req.query,
+    })
+  } else {
+    logger.warn('Client Error:', logData)
   }
 
-  // Handle MongoDB Cast Error (invalid ObjectId)
-  if (err.name === 'CastError') {
-    statusCode = 400
-    code = 'INVALID_ID'
-    message = `Invalid ${err.path}: ${err.value}`
-  }
-
-  // Handle JWT errors
-  if (err.name === 'JsonWebTokenError') {
-    statusCode = 401
-    code = 'INVALID_TOKEN'
-    message = 'Invalid token. Please login again.'
-  }
-
-  if (err.name === 'TokenExpiredError') {
-    statusCode = 401
-    code = 'EXPIRED_TOKEN'
-    message = 'Token expired. Please login again.'
-  }
-
-  // Response
   const response = {
     success: false,
-    code,
-    message,
+    error: {
+      statusCode,
+      code: errorCode,
+      message,
+    },
   }
 
-  // Add stack trace to response in development environment
+  if (error.errors) {
+    response.error.errors = error.errors
+  }
+
   if (process.env.NODE_ENV === 'development') {
-    response.stack = err.stack
-    response.error = err
+    response.error.stack = error.stack
+    response.error.raw = error
   }
 
   res.status(statusCode).json(response)
 }
 
-module.exports = errorHandler
+const notFoundHandler = (req, res, next) => {
+  next(new NotFoundError(`Route ${req.originalUrl} not found`))
+}
+
+module.exports = {
+  errorHandler,
+  notFoundHandler,
+}

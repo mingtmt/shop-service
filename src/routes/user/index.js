@@ -2,10 +2,13 @@
 
 const express = require('express')
 const router = express.Router()
+const asyncHandler = require('../../utils/asyncHandler')
 const usersController = require('../../controllers/users')
 
-router.post('/register', usersController.register.bind(usersController))
-router.get('/', usersController.getAllUsers.bind(usersController))
-router.get('/:id', usersController.getUserById.bind(usersController))
+router.post('/register', asyncHandler(usersController.createUser))
+router.get('/', asyncHandler(usersController.getAllUsers))
+router.get('/:id', asyncHandler(usersController.getUserById))
+router.put('/:id', asyncHandler(usersController.updateUser))
+router.delete('/:id', asyncHandler(usersController.deleteUser))
 
 module.exports = router
