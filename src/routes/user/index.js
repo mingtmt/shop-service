@@ -4,8 +4,8 @@ const express = require('express')
 const router = express.Router()
 const usersController = require('../../controllers/users')
 
-router.post('/register', usersController.register)
-router.get('/', usersController.getAllUsers)
-router.get('/:id', usersController.getUserById)
+router.post('/register', usersController.register.bind(usersController))
+router.get('/', usersController.getAllUsers.bind(usersController))
+router.get('/:id', usersController.getUserById.bind(usersController))
 
 module.exports = router

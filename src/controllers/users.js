@@ -3,29 +3,40 @@
 const UsersService = require('../services/users')
 
 class UsersController {
-  getAllUsers = async (req, res, next) => {
+  async getAllUsers(req, res, next) {
     try {
       const users = await UsersService.getAllUsers()
-      res.status(200).json(users)
+      res.status(200).json({
+        success: true,
+        count: users.length,
+        data: users,
+      })
     } catch (error) {
       next(error)
     }
   }
 
-  getUserById = async (req, res, next) => {
+  async getUserById(req, res, next) {
     try {
       const user = await UsersService.getUserById(req.params.id)
-      res.status(200).json(user)
+      res.status(200).json({
+        success: true,
+        data: user,
+      })
     } catch (error) {
       next(error)
     }
   }
 
-  register = async (req, res, next) => {
+  async register(req, res, next) {
     try {
       const user = req.body
       const savedUser = await UsersService.createUser(user)
-      res.status(201).json(savedUser)
+      res.status(201).json({
+        success: true,
+        message: 'User registered successfully',
+        data: savedUser,
+      })
     } catch (error) {
       next(error)
     }

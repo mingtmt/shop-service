@@ -1,49 +1,55 @@
 'use strict'
 
-const bcrypt = require('bcryptjs')
-const logger = require('../configs/logger')
 const User = require('../models/user')
 
 class UsersService {
-  static getAllUsers = async () => {
-    try {
-      const users = await User.find({})
-      return users
-    } catch (error) {
-      logger.error(`Error getting all users: ${error}`)
-      throw new Error('Error getting all users')
-    }
+  static getAllUsers = async (filter = {}) => {
+    const users = await User.find(filter)
+    return users
   }
 
   static getUserById = async (id) => {
-    try {
-      const user = await User.findById(id)
-      return user
-    } catch (error) {
-      logger.error(`Error getting user by id: ${error}`)
-      throw new Error('Error getting user by id')
+    const user = await User.findById(id)
+
+    if (!user) {
+      const error = new Error('User not found')
+      error.statusCode = 404
+      throw error
     }
+
+    return user
   }
 
-  static createUser = async (user) => {
-    const { name, email, password } = user
-
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
-
-    try {
-      const newUser = new User({
-        name,
-        email,
-        password: hashedPassword,
-      })
-
-      const savedUser = await newUser.save()
-      return savedUser
-    } catch (error) {
-      logger.error(`Error creating user: ${error}`)
-      throw new Error('Error creating user')
+  static createUser = async (userData) => {
+    if (!userData || typeof userData !== 'object') {
+      const error = new Error('Invalid user data')
+      error.statusCode = 400
+      throw error
     }
+
+    const { name, email, password } = userData
+
+    if (!name || !email || !password) {
+      const error = new Error('Name, email and password are required')
+      error.statusCode = 400
+      throw error
+    }
+
+    const existingUser = await User.findOne({ email: email.toLowerCase() })
+    if (existingUser) {
+      const error = new Error('Email already exists')
+      error.statusCode = 409
+      throw error
+    }
+
+    const newUser = new User({
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
+      password,
+    })
+
+    const savedUser = await newUser.save()
+    return savedUser
   }
 }
 
