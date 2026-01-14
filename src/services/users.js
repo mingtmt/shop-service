@@ -1,7 +1,7 @@
 'use strict'
 
 const User = require('../models/user')
-const { BadRequestError, NotFoundError, ConflictError } = require('../core/errorResponse')
+const { BadRequestError, NotFoundError } = require('../core/errorResponse')
 
 class UsersService {
   static getAllUsers = async (filter = {}) => {
@@ -17,38 +17,6 @@ class UsersService {
     }
 
     return user
-  }
-
-  static createUser = async (userData) => {
-    if (!userData || typeof userData !== 'object') {
-      throw new BadRequestError({ message: 'Invalid user data' })
-    }
-
-    const { name, email, password } = userData
-
-    if (!name || !email || !password) {
-      throw new BadRequestError({ message: 'Name, email and password are required' })
-    }
-
-    const existingUser = await User.findOne({ email: email.toLowerCase() })
-    if (existingUser) {
-      throw new ConflictError({
-        message: 'Email already exists',
-        errorCode: 'EMAIL_DUPLICATE',
-        metadata: {
-          email: userData.email,
-        },
-      })
-    }
-
-    const newUser = new User({
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
-      password,
-    })
-
-    const savedUser = await newUser.save()
-    return savedUser
   }
 
   static updateUser = async (id, updateData) => {

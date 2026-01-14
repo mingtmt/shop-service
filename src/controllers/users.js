@@ -1,7 +1,7 @@
 'use strict'
 
 const UsersService = require('../services/users')
-const { OK, Created } = require('../core/successResponse')
+const { OK } = require('../core/successResponse')
 
 class UsersController {
   getAllUsers = async (req, res) => {
@@ -23,17 +23,6 @@ class UsersController {
       message: 'Get user successfully',
       data: user,
     }).send(res)
-  }
-
-  createUser = async (req, res) => {
-    const newUser = await UsersService.createUser(req.body)
-
-    new Created({
-      message: 'User registered successfully',
-      data: newUser,
-    }).send(res, {
-      Location: `/api/users/${newUser.id}`,
-    })
   }
 
   updateUser = async (req, res) => {

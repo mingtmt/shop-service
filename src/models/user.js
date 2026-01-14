@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      minlength: [8, 'Password must be at least 8 characters'],
       select: false,
     },
     status: {
@@ -35,6 +36,14 @@ const userSchema = new mongoose.Schema(
       enum: ['admin', 'user'],
       default: 'user',
     },
+    refreshToken: {
+      type: String,
+      select: false,
+    },
+    passwordChangedAt: {
+      type: Date,
+      select: false,
+    },
   },
   {
     timestamps: true,
@@ -46,12 +55,33 @@ userSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, 10)
 })
 
+userSchema.pre('save', function () {
+  if (!this.isModified('password') || this.isNew) return
+  this.passwordChangedAt = Date.now() - 1000 // Subtract 1s to ensure token created after
+})
+
+// Compare password with the password in the database
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password)
+}
+
+// Check if the password has been changed after the JWT timestamp
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10)
+    return JWTTimestamp < changedTimestamp
+  }
+  return false
+}
+
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
     delete returnedObject.password
+    delete returnedObject.refreshToken
+    delete returnedObject.passwordChangedAt
   },
 })
 

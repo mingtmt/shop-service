@@ -18,6 +18,9 @@ app.use(compression())
 
 // routes
 app.use('/api/v1', routes)
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() })
+})
 
 app.use(notFoundHandler)
 app.use(errorHandler)
