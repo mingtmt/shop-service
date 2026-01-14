@@ -2,9 +2,9 @@
 
 const logger = require('../configs/logger')
 const { StatusCode, ErrorCode } = require('../core/constants')
-const { NotFoundError } = require('../core/errors')
+const { NotFoundError } = require('../core/errorResponse')
 
-const errorHandler = (err, req, res) => {
+const errorHandler = (err, req, res, next) => {
   const error = err
 
   const statusCode = error.statusCode || StatusCode.INTERNAL_SERVER_ERROR
