@@ -56,6 +56,7 @@ userSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, 10)
 })
 
+// update password changed at
 userSchema.pre('save', function () {
   if (!this.isModified('password') || this.isNew) return
   this.passwordChangedAt = Date.now() - 1000 // Subtract 1s to ensure token created after

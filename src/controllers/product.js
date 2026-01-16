@@ -1,11 +1,11 @@
 'use strict'
 
-const ProductsService = require('../services/products')
+const ProductFactory = require('../services/products/productFactory')
 const { Created } = require('../core/successResponse')
 
-class ProductsController {
+class ProductController {
   createProduct = async (req, res) => {
-    const product = await ProductsService.createProduct(req.body.category, req.body)
+    const product = await ProductFactory.createProduct(req.body.category, req.body)
 
     new Created({
       message: 'Product created successfully',
@@ -14,4 +14,4 @@ class ProductsController {
   }
 }
 
-module.exports = new ProductsController()
+module.exports = new ProductController()

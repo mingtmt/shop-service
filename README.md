@@ -18,6 +18,7 @@ A lightweight RESTful API built with Node.js, Express, and MongoDB to manage e-c
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
+
 - Node.js (v22)
 - MongoDB (Local instance or Atlas URI)
 - npm (v10)
@@ -25,28 +26,32 @@ Before you begin, ensure you have the following installed:
 ## Installation and Setup
 
 1. Clone the repository:
-  ```bash
-  git clone https://github.com/mingtmt/shop-service.git
-  cd shop-service
-  ```
+
+```bash
+git clone https://github.com/mingtmt/shop-service.git
+cd shop-service
+```
 
 2. Install dependencies:
-  ```bash
-  npm install
-  ```
+
+```bash
+npm install
+```
 
 3. Configure environment variables: Create a `.env` file in the root directory.
-  ```
-  PORT=3000
-  MONGODB_URI=mongodb://localhost:27017/shop-db
-  JWT_SECRET=your_super_secret_key
-  ```
-   
+
+```
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/shop-db
+JWT_SECRET=your_super_secret_key
+```
+
 4. Start the server:
-  ```bash
-  # Development mode
-  npm run dev
-  
-  # Production mode
-  npm start
-  ```
+
+```bash
+# Development mode
+npm run dev
+
+# Production mode
+npm start
+```

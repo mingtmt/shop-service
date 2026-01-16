@@ -3,7 +3,7 @@
 const User = require('../models/user')
 const { BadRequestError, NotFoundError } = require('../core/errorResponse')
 
-class UsersService {
+class UserService {
   static getAllUsers = async (filter = {}) => {
     const users = await User.find(filter)
     return users
@@ -48,4 +48,4 @@ class UsersService {
   }
 }
 
-module.exports = UsersService
+module.exports = UserService

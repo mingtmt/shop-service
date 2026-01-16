@@ -1,11 +1,11 @@
 'use strict'
 
-const UsersService = require('../services/users')
+const UserService = require('../services/users')
 const { OK } = require('../core/successResponse')
 
 class UsersController {
   getAllUsers = async (req, res) => {
-    const users = await UsersService.getAllUsers()
+    const users = await UserService.getAllUsers()
 
     new OK({
       message: 'Get all users successfully',
@@ -17,7 +17,7 @@ class UsersController {
   }
 
   getUserById = async (req, res) => {
-    const user = await UsersService.getUserById(req.params.id)
+    const user = await UserService.getUserById(req.params.id)
 
     new OK({
       message: 'Get user successfully',
@@ -26,7 +26,7 @@ class UsersController {
   }
 
   updateUser = async (req, res) => {
-    const updatedUser = await UsersService.updateUser(req.params.id, req.body)
+    const updatedUser = await UserService.updateUser(req.params.id, req.body)
 
     new OK({
       message: 'User updated successfully',
@@ -35,7 +35,7 @@ class UsersController {
   }
 
   deleteUser = async (req, res) => {
-    await UsersService.deleteUser(req.params.id)
+    await UserService.deleteUser(req.params.id)
 
     new OK({
       message: 'User deleted successfully',

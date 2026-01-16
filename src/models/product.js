@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
-// const slugify = require('slugify')
+const slugify = require('slugify')
 
 const productSchema = new mongoose.Schema(
   {
@@ -12,7 +12,10 @@ const productSchema = new mongoose.Schema(
       minlength: [3, 'Name must be at least 3 characters'],
       maxlength: [50, 'Name cannot exceed 50 characters'],
     },
-    // slug: String,
+    slug: {
+      type: String,
+      lowercase: true,
+    },
     description: {
       type: String,
       trim: true,
@@ -32,11 +35,20 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: [true, 'Category is required'],
-      enum: ['electronics', 'clothing', 'books', 'toys', 'appliances'],
+      enum: ['smartphone', 'tablet', 'laptop'],
     },
     attributes: {
       type: mongoose.Schema.Types.Mixed,
       required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Created by is required'],
+    },
+    updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
   {
@@ -45,70 +57,21 @@ const productSchema = new mongoose.Schema(
   },
 )
 
-// productSchema.pre('save', function (next) {
-//   this.product_slug = slugify(this.product_name, { lower: true })
-//   next()
-// })
+// Auto generate slug
+productSchema.pre('save', function () {
+  if (this.isModified('name')) {
+    this.slug = slugify(this.name, { lower: true })
+  }
+})
+
+productSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  },
+})
 
 const Product = mongoose.model('Product', productSchema)
 
-// Clothing Schema
-const clothingSchema = new mongoose.Schema(
-  {
-    brand: {
-      type: String,
-      required: [true, 'Brand is required'],
-    },
-    size: String,
-    material: String,
-  },
-  {
-    timestamps: true,
-    collection: 'clothing',
-  },
-)
-
-const Clothing = mongoose.model('Clothing', clothingSchema)
-
-// Electronic Schema
-const electronicSchema = mongoose.Schema(
-  {
-    brand: {
-      type: String,
-      required: [true, 'Brand is required'],
-    },
-    model: String,
-    color: String,
-  },
-  {
-    timestamps: true,
-    collection: 'electronics',
-  },
-)
-
-const Electronic = mongoose.model('Electronic', electronicSchema)
-
-// Furniture Schema
-const FurnitureSchema = new mongoose.Schema(
-  {
-    brand: {
-      type: String,
-      required: [true, 'Brand is required'],
-    },
-    size: String,
-    material: String,
-  },
-  {
-    timestamps: true,
-    collection: 'furnitures',
-  },
-)
-
-const Furniture = mongoose.model('Furniture', FurnitureSchema)
-
-module.exports = {
-  Product,
-  Clothing,
-  Electronic,
-  Furniture,
-}
+module.exports = Product
