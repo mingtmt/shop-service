@@ -1,6 +1,6 @@
 'use strict'
 
-const ProductFactory = require('../services/products/productFactory')
+const ProductFactory = require('../services/product/productFactory')
 const { Created } = require('../core/successResponse')
 
 class ProductController {

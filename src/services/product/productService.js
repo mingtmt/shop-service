@@ -3,11 +3,11 @@
 const Product = require('../../models/product')
 
 class ProductService {
-  constructor({ name, description, price, image, category, attributes, createdBy, updatedBy }) {
+  constructor({ name, description, price, thumb, category, attributes, createdBy, updatedBy }) {
     this.name = name
     this.description = description
     this.price = price
-    this.image = image
+    this.thumb = thumb
     this.category = category
     this.attributes = attributes
     this.createdBy = createdBy
@@ -22,7 +22,7 @@ class ProductService {
       price: this.price,
       image: this.image,
       category: this.category,
-      attributes: this.attributes,
+      attributes: productId,
       createdBy: this.createdBy,
       updatedBy: this.updatedBy,
     })

@@ -10,27 +10,34 @@ const productSchema = new mongoose.Schema(
       required: [true, 'Name is required'],
       trim: true,
       minlength: [3, 'Name must be at least 3 characters'],
-      maxlength: [50, 'Name cannot exceed 50 characters'],
+      maxlength: [150, 'Name cannot exceed 50 characters'],
     },
     slug: {
       type: String,
       lowercase: true,
+      unique: true,
+      index: true,
     },
     description: {
       type: String,
       trim: true,
-      minlength: [3, 'Description must be at least 3 characters'],
     },
     price: {
       type: Number,
       required: [true, 'Price is required'],
       min: [0.01, 'Price must be at least 0.01'],
     },
-    image: {
+    thumb: {
       type: String,
       required: [true, 'Image is required'],
       trim: true,
       minlength: [3, 'Image must be at least 3 characters'],
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: [0, 'Quantity cannot be negative'],
+      default: 0,
     },
     category: {
       type: String,
@@ -38,8 +45,32 @@ const productSchema = new mongoose.Schema(
       enum: ['smartphone', 'tablet', 'laptop'],
     },
     attributes: {
-      type: mongoose.Schema.Types.Mixed,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Electronic', // Trỏ sang model cha Electronic
       required: true,
+    },
+    ratingAverage: {
+      type: Number,
+      default: 4.5,
+      min: [1, 'Rating average must be at least 1'],
+      max: [5, 'Rating average must be at most 5'],
+      set: (val) => Math.round(val * 10) / 10,
+    },
+    variations: {
+      type: Array,
+      default: [],
+    },
+    isDraft: {
+      type: Boolean,
+      default: true,
+      index: true,
+      select: false,
+    },
+    isPublished: {
+      type: Boolean,
+      default: false,
+      index: true,
+      select: false,
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -56,6 +87,9 @@ const productSchema = new mongoose.Schema(
     collection: 'products',
   },
 )
+
+// Index for search
+productSchema.index({ name: 'text', description: 'text' })
 
 // Auto generate slug
 productSchema.pre('save', function () {

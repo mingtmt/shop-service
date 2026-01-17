@@ -15,7 +15,7 @@ const tabletSchema = new mongoose.Schema(
       trim: true,
     },
     series: String,
-    realeaseYear: Number,
+    releaseYear: Number,
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

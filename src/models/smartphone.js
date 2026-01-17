@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 const smartphoneSchema = new mongoose.Schema(
   {
-    brand: {
+    manufacturer: {
       type: String,
       required: [true, 'Brand is required'],
       trim: true,
@@ -15,7 +15,7 @@ const smartphoneSchema = new mongoose.Schema(
       trim: true,
     },
     series: String,
-    realeaseYear: Number,
+    releaseYear: Number,
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
