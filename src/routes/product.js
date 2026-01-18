@@ -14,5 +14,25 @@ router.post(
   setAuditFields,
   asyncHandler(productController.createProduct),
 )
+router.get(
+  '/drafts',
+  protect,
+  restrictTo('admin'),
+  asyncHandler(productController.getAllDraftProducts),
+)
+router.get('/published', asyncHandler(productController.getAllPublishedProducts))
+router.patch(
+  '/publish/:id',
+  protect,
+  restrictTo('admin'),
+  asyncHandler(productController.publishProduct),
+)
+router.patch(
+  '/unpublish/:id',
+  protect,
+  restrictTo('admin'),
+  asyncHandler(productController.unPublishProduct),
+)
+router.get('/search/:keySearch', asyncHandler(productController.searchProducts))
 
 module.exports = router

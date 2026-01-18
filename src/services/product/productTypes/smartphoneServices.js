@@ -1,7 +1,7 @@
 'use strict'
 
 const Product = require('../../../models/product')
-const Smartphone = require('../../../models/smartphone')
+const { Smartphone } = require('../../../models/electronic')
 const ProductService = require('../productService')
 
 class SmartphoneService extends ProductService {
@@ -17,6 +17,7 @@ class SmartphoneService extends ProductService {
     return await Product.findById(newProduct._id)
       .populate('createdBy', 'name email')
       .populate('updatedBy', 'name email')
+      .populate('attributes', 'os simType displayTechnology')
   }
 }
 

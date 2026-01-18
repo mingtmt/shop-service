@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const DOCUMENT_NAME = 'Electronic'
 const COLLECTION_NAME = 'electronics'
 
-// 1. Base Schema (Cha): Chứa thông số chung nhất
+// 1. Base Electronic Schema
 const electronicSchema = new mongoose.Schema(
   {
     manufacturer: { type: String, required: true }, // Apple, Samsung
@@ -24,13 +24,21 @@ const electronicSchema = new mongoose.Schema(
 
 const Electronic = mongoose.model(DOCUMENT_NAME, electronicSchema)
 
+electronicSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  },
+})
+
 // Smartphone Schema
 const Smartphone = Electronic.discriminator(
   'Smartphone',
   new mongoose.Schema({
     os: { type: String, required: true }, // iOS, Android
-    sim_type: { type: String, enum: ['nano-sim', 'esim', 'dual-sim'] },
-    display_technology: String, // OLED, IPS
+    simType: { type: String, enum: ['nano-sim', 'esim', 'dual-sim'] },
+    displayTechnology: String, // OLED, IPS
   }),
 )
 

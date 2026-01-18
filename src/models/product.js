@@ -46,7 +46,7 @@ const productSchema = new mongoose.Schema(
     },
     attributes: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Electronic', // Trỏ sang model cha Electronic
+      ref: 'Electronic',
       required: true,
     },
     ratingAverage: {
