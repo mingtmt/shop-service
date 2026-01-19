@@ -7,38 +7,53 @@ const {
   publishProduct,
   unPublishProduct,
   searchProducts,
+  getAllProducts,
+  getProductById,
 } = require('../../models/repositories/product')
 
 class ProductFactory {
-  static createProduct(category, payload) {
+  static createProduct = async (category, payload) => {
     const productClass = productTypes[category]
     if (!productClass) throw new BadRequestError('Invalid Category')
 
     return new productClass(payload).createProduct()
   }
 
-  static getAllDraftProducts({ limit = 50, skip = 0 }) {
+  static getAllDraftProducts = async ({ limit = 50, skip = 0 }) => {
     const query = { isDraft: true, isPublished: false }
 
-    return queryProducts({ query, limit, skip })
+    return await queryProducts({ query, limit, skip })
   }
 
-  static getAllPublishedProducts({ limit = 50, skip = 0 }) {
+  static getAllPublishedProducts = async ({ limit = 50, skip = 0 }) => {
     const query = { isDraft: false, isPublished: true }
 
-    return queryProducts({ query, limit, skip })
+    return await queryProducts({ query, limit, skip })
   }
 
-  static publishProduct(id, updatedBy) {
-    return publishProduct(id, updatedBy)
+  static publishProduct = async ({ id, updatedBy }) => {
+    return await publishProduct({ id, updatedBy })
   }
 
-  static unPublishProduct(id, updatedBy) {
-    return unPublishProduct(id, updatedBy)
+  static unPublishProduct = async ({ id, updatedBy }) => {
+    return await unPublishProduct({ id, updatedBy })
   }
 
-  static searchProducts({ keySearch }) {
-    return searchProducts({ keySearch })
+  static searchProducts = async ({ keySearch }) => {
+    return await searchProducts({ keySearch })
+  }
+
+  static getAllProducts = async ({
+    limit = 50,
+    sort = 'ctime',
+    page = 1,
+    filter = { isPublished: true },
+  }) => {
+    return await getAllProducts({ limit, sort, page, filter, select: ['name', 'price', 'thumb'] })
+  }
+
+  static getProductById = async (id) => {
+    return await getProductById({ id, unSelect: ['__v'] })
   }
 }
 

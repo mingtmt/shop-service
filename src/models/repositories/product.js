@@ -1,6 +1,7 @@
 'use strict'
 
 const Product = require('../product')
+const { getSelectData, getUnSelectData } = require('../../utils')
 
 const queryProducts = async ({ query, limit, skip }) => {
   return await Product.find(query)
@@ -11,7 +12,7 @@ const queryProducts = async ({ query, limit, skip }) => {
     .exec()
 }
 
-const publishProduct = async (id, updatedBy) => {
+const publishProduct = async ({ id, updatedBy }) => {
   return await Product.findByIdAndUpdate(id, {
     updatedBy: updatedBy,
     isDraft: false,
@@ -19,7 +20,7 @@ const publishProduct = async (id, updatedBy) => {
   })
 }
 
-const unPublishProduct = async (id, updatedBy) => {
+const unPublishProduct = async ({ id, updatedBy }) => {
   return await Product.findByIdAndUpdate(id, {
     updatedBy: updatedBy,
     isDraft: true,
@@ -43,9 +44,29 @@ const searchProducts = async ({ keySearch }) => {
   return results
 }
 
+const getAllProducts = async ({ limit, sort, page, filter, select }) => {
+  const skip = (page - 1) * limit
+  const sortBy = sort === 'ctime' ? { _id: -1 } : { _id: 1 }
+  const products = await Product.find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(getSelectData(select))
+
+  return products
+}
+
+const getProductById = async ({ id, unSelect }) => {
+  const product = await Product.findById(id).select(getUnSelectData(unSelect))
+
+  return product
+}
+
 module.exports = {
   queryProducts,
   publishProduct,
   unPublishProduct,
   searchProducts,
+  getAllProducts,
+  getProductById,
 }

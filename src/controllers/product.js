@@ -36,7 +36,8 @@ class ProductController {
   }
 
   publishProduct = async (req, res) => {
-    const product = await ProductFactory.publishProduct(req.params.id, req.user.id)
+    const { updatedBy } = req.body
+    const product = await ProductFactory.publishProduct({ id: req.params.id, updatedBy })
 
     new OK({
       message: 'Product published successfully',
@@ -45,7 +46,8 @@ class ProductController {
   }
 
   unPublishProduct = async (req, res) => {
-    const product = await ProductFactory.unPublishProduct(req.params.id, req.user.id)
+    const { updatedBy } = req.body
+    const product = await ProductFactory.unPublishProduct({ id: req.params.id, updatedBy })
 
     new OK({
       message: 'Product unpublished successfully',
@@ -59,6 +61,24 @@ class ProductController {
     new OK({
       message: 'Search products successfully',
       data: products,
+    }).send(res)
+  }
+
+  getAllProducts = async (req, res) => {
+    const products = await ProductFactory.getAllProducts(req.query)
+
+    new OK({
+      message: 'Get all products successfully',
+      data: products,
+    }).send(res)
+  }
+
+  getProductById = async (req, res) => {
+    const product = await ProductFactory.getProductById(req.params.id)
+
+    new OK({
+      message: 'Get product by id successfully',
+      data: product,
     }).send(res)
   }
 }

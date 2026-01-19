@@ -5,6 +5,10 @@ const setAuditFields = (req, res, next) => {
     return next()
   }
 
+  if (!req.body) {
+    req.body = {}
+  }
+
   const userId = req.user.id || req.user._id
 
   if (req.method === 'POST') {
