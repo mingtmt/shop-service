@@ -2,13 +2,25 @@
 
 const Product = require('../../models/product')
 const { updateProductById } = require('../../repositories/product')
+const { insertInventory } = require('../../repositories/inventory')
 
 class ProductService {
-  constructor({ name, description, price, thumb, category, attributes, createdBy, updatedBy }) {
+  constructor({
+    name,
+    description,
+    price,
+    thumb,
+    quantity,
+    category,
+    attributes,
+    createdBy,
+    updatedBy,
+  }) {
     this.name = name
     this.description = description
     this.price = price
     this.thumb = thumb
+    this.quantity = quantity
     this.category = category
     this.attributes = attributes
     this.createdBy = createdBy
@@ -16,19 +28,16 @@ class ProductService {
   }
 
   async createProduct(productId) {
-    const product = await Product.create({
+    const newProduct = await Product.create({
+      ...this,
       _id: productId,
-      name: this.name,
-      description: this.description,
-      price: this.price,
-      thumb: this.thumb,
-      category: this.category,
-      attributes: this.attributes,
-      createdBy: this.createdBy,
-      updatedBy: this.updatedBy,
     })
 
-    return product
+    if (newProduct) {
+      await insertInventory({ productId: newProduct._id, stock: this.quantity })
+    }
+
+    return newProduct
   }
 
   async updateProduct({ id, payload }) {
