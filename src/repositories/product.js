@@ -1,7 +1,7 @@
 'use strict'
 
-const Product = require('../product')
-const { getSelectData, getUnSelectData } = require('../../utils')
+const Product = require('../models/product')
+const { getSelectData, getUnSelectData } = require('../utils')
 
 const queryProducts = async ({ query, limit, skip }) => {
   return await Product.find(query)

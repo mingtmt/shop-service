@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 const env = require('./env')
-const { countConnect } = require('../utils/checkConnect')
+const { countConnect } = require('../helpers/checkConnect')
 
 class Database {
   constructor() {

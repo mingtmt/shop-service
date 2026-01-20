@@ -3,7 +3,7 @@
 const Product = require('../../../models/product')
 const { Smartphone } = require('../../../models/electronic')
 const ProductService = require('../productService')
-const { updateProductById } = require('../../../models/repositories/product')
+const { updateProductById } = require('../../../repositories/product')
 const { removeUndefined, updateNestedObjectParser } = require('../../../utils')
 
 class SmartphoneService extends ProductService {

@@ -9,7 +9,7 @@ const {
   searchProducts,
   getAllProducts,
   getProductById,
-} = require('../../models/repositories/product')
+} = require('../../repositories/product')
 
 class ProductFactory {
   static createProduct = async (category, payload) => {

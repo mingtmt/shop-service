@@ -1,7 +1,7 @@
 'use strict'
 
 const Product = require('../../models/product')
-const { updateProductById } = require('../../models/repositories/product')
+const { updateProductById } = require('../../repositories/product')
 
 class ProductService {
   constructor({ name, description, price, thumb, category, attributes, createdBy, updatedBy }) {
