@@ -2,10 +2,7 @@
 
 const mongoose = require('mongoose')
 
-const DOCUMENT_NAME = 'Electronic'
-const COLLECTION_NAME = 'electronics'
-
-// 1. Base Electronic Schema
+// Base Electronic Schema
 const electronicSchema = new mongoose.Schema(
   {
     manufacturer: { type: String, required: true }, // Apple, Samsung
@@ -17,12 +14,12 @@ const electronicSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: COLLECTION_NAME,
+    collection: 'electronics',
     discriminatorKey: 'type',
   },
 )
 
-const Electronic = mongoose.model(DOCUMENT_NAME, electronicSchema)
+const Electronic = mongoose.model('Electronic', electronicSchema)
 
 electronicSchema.set('toJSON', {
   transform: (document, returnedObject) => {

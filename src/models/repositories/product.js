@@ -62,6 +62,12 @@ const getProductById = async ({ id, unSelect }) => {
   return product
 }
 
+const updateProductById = async ({ id, payload, model, isNew = true }) => {
+  const product = await model.findByIdAndUpdate(id, payload, { new: isNew })
+
+  return product
+}
+
 module.exports = {
   queryProducts,
   publishProduct,
@@ -69,4 +75,5 @@ module.exports = {
   searchProducts,
   getAllProducts,
   getProductById,
+  updateProductById,
 }

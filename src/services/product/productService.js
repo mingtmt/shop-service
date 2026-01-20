@@ -1,6 +1,7 @@
 'use strict'
 
 const Product = require('../../models/product')
+const { updateProductById } = require('../../models/repositories/product')
 
 class ProductService {
   constructor({ name, description, price, thumb, category, attributes, createdBy, updatedBy }) {
@@ -22,12 +23,16 @@ class ProductService {
       price: this.price,
       thumb: this.thumb,
       category: this.category,
-      attributes: productId,
+      attributes: this.attributes,
       createdBy: this.createdBy,
       updatedBy: this.updatedBy,
     })
 
     return product
+  }
+
+  async updateProduct({ id, payload }) {
+    return await updateProductById({ id, payload, model: Product })
   }
 }
 

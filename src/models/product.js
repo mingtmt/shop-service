@@ -45,8 +45,7 @@ const productSchema = new mongoose.Schema(
       enum: ['smartphone', 'tablet', 'laptop'],
     },
     attributes: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Electronic',
+      type: mongoose.Schema.Types.Mixed,
       required: true,
     },
     ratingAverage: {

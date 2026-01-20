@@ -19,6 +19,13 @@ class ProductFactory {
     return new productClass(payload).createProduct()
   }
 
+  static updateProduct = async ({ id, payload }) => {
+    const productClass = productTypes[payload.category]
+    if (!productClass) throw new BadRequestError('Invalid Category')
+
+    return new productClass(payload).updateProduct(id)
+  }
+
   static getAllDraftProducts = async ({ limit = 50, skip = 0 }) => {
     const query = { isDraft: true, isPublished: false }
 

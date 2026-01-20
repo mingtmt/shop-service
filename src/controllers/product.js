@@ -81,6 +81,15 @@ class ProductController {
       data: product,
     }).send(res)
   }
+
+  updateProduct = async (req, res) => {
+    const product = await ProductFactory.updateProduct({ id: req.params.id, payload: req.body })
+
+    new OK({
+      message: 'Product updated successfully',
+      data: product,
+    }).send(res)
+  }
 }
 
 module.exports = new ProductController()
