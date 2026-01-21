@@ -1,5 +1,7 @@
 'use strict'
 
+const mongoose = require('mongoose')
+
 const getSelectData = (select = []) => {
   return Object.fromEntries(select.map((item) => [item, 1]))
 }
@@ -32,9 +34,14 @@ const updateNestedObjectParser = (obj) => {
   return final
 }
 
+const convertToMongoObjectId = (id) => {
+  return mongoose.Types.ObjectId(id)
+}
+
 module.exports = {
   getSelectData,
   getUnSelectData,
   removeUndefined,
   updateNestedObjectParser,
+  convertToMongoObjectId,
 }
