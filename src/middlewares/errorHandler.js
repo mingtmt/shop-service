@@ -1,9 +1,9 @@
 'use strict'
 
-const logger = require('../configs/logger')
-const { StatusCode, ErrorCode } = require('../core/constants')
-const { NotFoundError } = require('../core/errorResponse')
-const { removeImageByPublicId } = require('../utils/cloudinary')
+const logger = require('@configs/logger')
+const { StatusCode, ErrorCode } = require('@core/constants')
+const { NotFoundError } = require('@core/errorResponse')
+const { removeImageByPublicId } = require('@utils/cloudinary')
 
 const errorHandler = (error, req, res, next) => {
   const statusCode = error.statusCode || StatusCode.INTERNAL_SERVER_ERROR

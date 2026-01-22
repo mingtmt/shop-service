@@ -1,7 +1,7 @@
 'use strict'
 
-const User = require('../models/user')
-const { BadRequestError, NotFoundError } = require('../core/errorResponse')
+const User = require('@models/user')
+const { BadRequestError, NotFoundError } = require('@core/errorResponse')
 
 class UserService {
   static getAllUsers = async (filter = {}) => {

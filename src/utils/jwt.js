@@ -1,7 +1,7 @@
 'use strict'
 
 const jwt = require('jsonwebtoken')
-const env = require('../configs/env')
+const env = require('@configs/env')
 
 class JWTHelper {
   static generateAccessToken(payload) {

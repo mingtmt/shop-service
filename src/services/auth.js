@@ -1,8 +1,8 @@
 'use strict'
 
-const User = require('../models/user')
-const { BadRequestError, ConflictError, UnauthorizedError } = require('../core/errorResponse')
-const JWTHelper = require('../utils/jwt')
+const User = require('@models/user')
+const { BadRequestError, ConflictError, UnauthorizedError } = require('@core/errorResponse')
+const JWTHelper = require('@utils/jwt')
 
 class AuthService {
   static register = async (userData) => {

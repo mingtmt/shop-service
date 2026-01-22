@@ -3,7 +3,7 @@
 const mongoose = require('mongoose')
 const os = require('os')
 const process = require('process')
-const logger = require('../configs/logger')
+const logger = require('@configs/logger')
 
 const _SECOND = 5000
 

@@ -1,7 +1,7 @@
 'use strict'
 
-const Product = require('../../../models/product')
-const { Laptop } = require('../../../models/electronic')
+const Product = require('@models/product')
+const { Laptop } = require('@models/electronic')
 const ProductService = require('../productService')
 
 class LaptopService extends ProductService {

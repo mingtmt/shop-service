@@ -3,7 +3,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 const env = require('./env')
-const { countConnect } = require('../helpers/checkConnect')
+const { countConnect } = require('@helpers/checkConnect')
 
 const connectionString =
   process.env.NODE_ENV === 'test' ? process.env.TEST_MONGODB_URI : process.env.MONGODB_URI

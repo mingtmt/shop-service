@@ -1,8 +1,8 @@
 'use strict'
 
-const JWTHelper = require('../utils/jwt')
-const User = require('../models/user')
-const { UnauthorizedError, ForbiddenError } = require('../core/errorResponse')
+const JWTHelper = require('@utils/jwt')
+const User = require('@models/user')
+const { UnauthorizedError, ForbiddenError } = require('@core/errorResponse')
 
 const protect = async (req, res, next) => {
   try {

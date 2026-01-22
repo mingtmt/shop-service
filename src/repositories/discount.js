@@ -1,7 +1,7 @@
 'use strict'
 
-const Discount = require('../models/discount')
-const { getUnSelectData, getSelectData } = require('../utils')
+const Discount = require('@models/discount')
+const { getUnSelectData, getSelectData } = require('@utils')
 
 const getAllDiscountCodeSelect = async ({ limit, page, sort, filter, select }) => {
   const skip = (page - 1) * limit

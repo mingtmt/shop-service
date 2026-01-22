@@ -2,11 +2,11 @@
 
 const express = require('express')
 const router = express.Router()
-const asyncHandler = require('../utils/asyncHandler')
-const productController = require('../controllers/product')
-const { protect, restrictTo } = require('../middlewares/auth')
-const setAuditFields = require('../middlewares/setAuditFields')
-const uploadImage = require('../middlewares/uploadImage')
+const asyncHandler = require('@utils/asyncHandler')
+const productController = require('@controllers/product')
+const { protect, restrictTo } = require('@middlewares/auth')
+const setAuditFields = require('@middlewares/setAuditFields')
+const uploadImage = require('@middlewares/uploadImage')
 
 // guest
 router.get('/search/:keySearch', asyncHandler(productController.searchProducts))

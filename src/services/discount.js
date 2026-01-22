@@ -1,9 +1,9 @@
 'use strict'
 
-const { BadRequestError, ConflictError, NotFoundError } = require('../../core/errorResponse')
-const Discount = require('../../models/discount')
-const { getAllDiscountCodeUnSelect } = require('../repositories/discount')
-const { getAllProducts } = require('../repositories/product')
+const { BadRequestError, ConflictError, NotFoundError } = require('@core/errorResponse')
+const Discount = require('@models/discount')
+const { getAllDiscountCodeUnSelect } = require('@repositories/discount')
+const { getAllProducts } = require('@repositories/product')
 
 class DiscountService {
   static createDiscountCode = async (payload) => {

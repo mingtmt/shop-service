@@ -1,6 +1,6 @@
 'use strict'
 
-const cloudinary = require('../configs/cloudinary')
+const cloudinary = require('@configs/cloudinary')
 
 const removeImageByPublicId = async (publicId) => {
   try {

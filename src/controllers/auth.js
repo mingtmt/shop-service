@@ -1,7 +1,7 @@
 'use strict'
 
-const AuthService = require('../services/auth')
-const { OK, Created } = require('../core/successResponse')
+const AuthService = require('@services/auth')
+const { OK, Created } = require('@core/successResponse')
 
 class AuthController {
   register = async (req, res) => {

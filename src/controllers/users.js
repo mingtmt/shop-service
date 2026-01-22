@@ -1,7 +1,7 @@
 'use strict'
 
-const UserService = require('../services/users')
-const { OK } = require('../core/successResponse')
+const UserService = require('@services/users')
+const { OK } = require('@core/successResponse')
 
 class UsersController {
   getAllUsers = async (req, res) => {

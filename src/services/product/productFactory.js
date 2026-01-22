@@ -1,7 +1,7 @@
 'use strict'
 
 const productTypes = require('./productTypes')
-const { BadRequestError } = require('../../core/errorResponse')
+const { BadRequestError } = require('@core/errorResponse')
 const {
   queryProducts,
   publishProduct,
@@ -9,7 +9,7 @@ const {
   searchProducts,
   getAllProducts,
   getProductById,
-} = require('../../repositories/product')
+} = require('@repositories/product')
 
 class ProductFactory {
   static createProduct = async (category, payload) => {

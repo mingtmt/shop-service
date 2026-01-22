@@ -2,9 +2,9 @@
 
 const express = require('express')
 const router = express.Router()
-const asyncHandler = require('../utils/asyncHandler')
-const usersController = require('../controllers/users')
-const { protect, restrictTo } = require('../middlewares/auth')
+const asyncHandler = require('@utils/asyncHandler')
+const usersController = require('@controllers/users')
+const { protect, restrictTo } = require('@middlewares/auth')
 
 //user
 router.use(protect)

@@ -1,12 +1,13 @@
 'use strict'
 
 require('dotenv').config()
+require('module-alias/register')
 const express = require('express')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const compression = require('compression')
-const routes = require('./routes')
-const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler')
+const routes = require('@routes')
+const { errorHandler, notFoundHandler } = require('@middlewares/errorHandler')
 
 const app = express()
 
