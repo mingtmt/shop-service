@@ -5,7 +5,16 @@ const { OK, Created } = require('../core/successResponse')
 
 class ProductController {
   createProduct = async (req, res) => {
-    const product = await ProductFactory.createProduct(req.body.category, req.body)
+    const thumbUrl = req.file ? req.file.path : null
+
+    const payload = {
+      ...req.body,
+      thumb: thumbUrl,
+    }
+
+    const product = await ProductFactory.createProduct(req.body.category, payload)
+
+    req.fileProcessed = true
 
     new Created({
       message: 'Product created successfully',

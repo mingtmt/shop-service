@@ -1,8 +1,12 @@
 'use strict'
 
+require('dotenv').config()
 const mongoose = require('mongoose')
 const env = require('./env')
 const { countConnect } = require('../helpers/checkConnect')
+
+const connectionString =
+  process.env.NODE_ENV === 'test' ? process.env.TEST_MONGODB_URI : process.env.MONGODB_URI
 
 class Database {
   constructor() {
@@ -16,7 +20,7 @@ class Database {
     }
 
     try {
-      await mongoose.connect(env.MONGODB_URI, {
+      await mongoose.connect(connectionString, {
         maxPoolSize: 50,
         serverSelectionTimeoutMS: 5000,
       })

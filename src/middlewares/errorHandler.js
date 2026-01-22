@@ -3,10 +3,9 @@
 const logger = require('../configs/logger')
 const { StatusCode, ErrorCode } = require('../core/constants')
 const { NotFoundError } = require('../core/errorResponse')
+const { removeImageByPublicId } = require('../utils/cloudinary')
 
-const errorHandler = (err, req, res, next) => {
-  const error = err
-
+const errorHandler = (error, req, res, next) => {
   const statusCode = error.statusCode || StatusCode.INTERNAL_SERVER_ERROR
   const errorCode = error.errorCode || ErrorCode.INTERNAL_ERROR
   const message = error.message || 'Internal Server Error'
@@ -47,6 +46,30 @@ const errorHandler = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     response.error.stack = error.stack
     response.error.raw = error
+  }
+
+  if (!req.fileProcessed) {
+    const filesToClean = []
+
+    if (req.file) {
+      filesToClean.push(req.file)
+    }
+
+    if (req.files) {
+      const arrayFiles = Array.isArray(req.files) ? req.files : Object.values(req.files).flat()
+      filesToClean.push(...arrayFiles)
+    }
+
+    if (filesToClean.length > 0) {
+      Promise.allSettled(
+        filesToClean.map((file) => {
+          const publicId = file.filename || file.public_id
+          return removeImageByPublicId(publicId)
+        }),
+      ).then((results) => {
+        logger.info('Cleanup results:', results)
+      })
+    }
   }
 
   res.status(statusCode).json(response)

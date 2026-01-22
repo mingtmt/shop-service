@@ -7,7 +7,7 @@ const electronicSchema = new mongoose.Schema(
   {
     manufacturer: { type: String, required: true }, // Apple, Samsung
     model: { type: String, required: true }, // iPhone 15 Pro
-    release_year: Number,
+    releaseYear: Number,
     specs: { type: mongoose.Schema.Types.Mixed }, // sub information
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -43,9 +43,9 @@ const Smartphone = Electronic.discriminator(
 const Tablet = Electronic.discriminator(
   'Tablet',
   new mongoose.Schema({
-    is_wifi_only: { type: Boolean, default: true },
-    screen_size: String, // 11 inch, 12.9 inch
-    stylus_support: { type: Boolean, default: false },
+    isWifiOnly: { type: Boolean, default: true },
+    screenSize: String, // 11 inch, 12.9 inch
+    stylusSupport: { type: Boolean, default: false },
   }),
 )
 
@@ -54,9 +54,9 @@ const Laptop = Electronic.discriminator(
   'Laptop',
   new mongoose.Schema({
     processor: String, // Intel i9, M3 Max
-    hard_drive: String, // SSD 1TB
+    hardDrive: String, // SSD 1TB
     ram: String, // 32GB
-    keyboard_backlight: Boolean,
+    keyboardBacklight: Boolean,
   }),
 )
 

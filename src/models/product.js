@@ -27,13 +27,17 @@ const productSchema = new mongoose.Schema(
       required: [true, 'Price is required'],
       min: [0.01, 'Price must be at least 0.01'],
     },
-    thumb: {
+    thumbnail: {
       type: String,
       required: [true, 'Image is required'],
       trim: true,
       minlength: [3, 'Image must be at least 3 characters'],
     },
-    quantity: {
+    images: {
+      type: Array,
+      default: [],
+    },
+    stock: {
       type: Number,
       required: true,
       min: [0, 'Quantity cannot be negative'],

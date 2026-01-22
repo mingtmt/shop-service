@@ -6,6 +6,7 @@ const asyncHandler = require('../utils/asyncHandler')
 const productController = require('../controllers/product')
 const { protect, restrictTo } = require('../middlewares/auth')
 const setAuditFields = require('../middlewares/setAuditFields')
+const uploadImage = require('../middlewares/uploadImage')
 
 // guest
 router.get('/search/:keySearch', asyncHandler(productController.searchProducts))
@@ -17,7 +18,12 @@ router.use(protect)
 
 // admin
 router.use(restrictTo('admin'))
-router.post('/', setAuditFields, asyncHandler(productController.createProduct))
+router.post(
+  '/',
+  setAuditFields,
+  uploadImage.single('thumb'),
+  asyncHandler(productController.createProduct),
+)
 router.get('/drafts', asyncHandler(productController.getAllDraftProducts))
 router.get('/published', asyncHandler(productController.getAllPublishedProducts))
 router.patch('/publish/:id', setAuditFields, asyncHandler(productController.publishProduct))
