@@ -9,8 +9,8 @@ class ProductService {
     name,
     description,
     price,
-    thumb,
-    quantity,
+    thumbnail,
+    stock,
     category,
     attributes,
     createdBy,
@@ -19,8 +19,8 @@ class ProductService {
     this.name = name
     this.description = description
     this.price = price
-    this.thumb = thumb
-    this.quantity = quantity
+    this.thumbnail = thumbnail
+    this.stock = stock
     this.category = category
     this.attributes = attributes
     this.createdBy = createdBy

@@ -56,7 +56,13 @@ class ProductFactory {
     page = 1,
     filter = { isPublished: true },
   }) => {
-    return await getAllProducts({ limit, sort, page, filter, select: ['name', 'price', 'thumb'] })
+    return await getAllProducts({
+      limit,
+      sort,
+      page,
+      filter,
+      select: ['name', 'price', 'thumbnail'],
+    })
   }
 
   static getProductById = async (id) => {

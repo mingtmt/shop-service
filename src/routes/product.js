@@ -20,8 +20,8 @@ router.use(protect)
 router.use(restrictTo('admin'))
 router.post(
   '/',
+  uploadImage.single('thumbnail'),
   setAuditFields,
-  uploadImage.single('thumb'),
   asyncHandler(productController.createProduct),
 )
 router.get('/drafts', asyncHandler(productController.getAllDraftProducts))

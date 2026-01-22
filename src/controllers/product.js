@@ -9,7 +9,7 @@ class ProductController {
 
     const payload = {
       ...req.body,
-      thumb: thumbUrl,
+      thumbnail: thumbUrl,
     }
 
     const product = await ProductFactory.createProduct(req.body.category, payload)
