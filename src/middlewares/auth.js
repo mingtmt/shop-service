@@ -45,13 +45,13 @@ const protect = async (req, res, next) => {
       })
     }
 
-    // Check if user is active
-    if (user.status !== 'active') {
-      throw new UnauthorizedError({
-        message: 'Your account is not active',
-        errorCode: 'ACCOUNT_INACTIVE',
-      })
-    }
+    // TODO: check if user is active
+    // if (user.status !== 'active') {
+    //   throw new UnauthorizedError({
+    //     message: 'Your account is not active',
+    //     errorCode: 'ACCOUNT_INACTIVE',
+    //   })
+    // }
 
     // Check if password changed after token issued
     if (user.changedPasswordAfter(decoded.iat)) {

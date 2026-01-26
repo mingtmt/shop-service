@@ -74,12 +74,13 @@ class AuthService {
       })
     }
 
-    if (user.status !== 'active') {
-      throw new UnauthorizedError({
-        message: 'Account is not active',
-        errorCode: 'ACCOUNT_INACTIVE',
-      })
-    }
+    // TODO: check if user is active
+    // if (user.status !== 'active') {
+    //   throw new UnauthorizedError({
+    //     message: 'Account is not active',
+    //     errorCode: 'ACCOUNT_INACTIVE',
+    //   })
+    // }
 
     const tokens = JWTHelper.generateTokens({
       id: user._id,

@@ -10,7 +10,7 @@ class AuthController {
     new Created({
       message: 'User registered successfully',
       data: {
-        newUser,
+        user: newUser,
         tokens,
       },
     }).send(res, {
@@ -25,8 +25,7 @@ class AuthController {
       message: 'Login successful',
       data: {
         user,
-        accessToken: tokens.accessToken,
-        refreshToken: tokens.refreshToken,
+        tokens: tokens,
       },
     }).send(res)
   }
