@@ -1,0 +1,36 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 60d0fe4f5311236168a109ca
+        name:
+          type: string
+          example: Minh Thi
+        email:
+          type: string
+          example: dev@example.com
+    
+    Product:
+      type: object
+      required:
+        - product_name
+        - product_price
+      properties:
+        product_name:
+          type: string
+        product_price:
+          type: number
+    
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        code:
+          type: integer
+        message:
+          type: string

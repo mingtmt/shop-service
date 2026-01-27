@@ -3,6 +3,8 @@
 require('dotenv').config()
 require('module-alias/register')
 const express = require('express')
+const swaggerUi = require('swagger-ui-express')
+const swaggerSpecs = require('@configs/swagger')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const compression = require('compression')
@@ -16,6 +18,9 @@ app.use(express.json())
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
 app.use(helmet())
 app.use(compression())
+
+// swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 
 // routes
 app.use('/api/v1', routes)
