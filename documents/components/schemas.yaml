@@ -12,7 +12,7 @@ components:
         email:
           type: string
           example: dev@example.com
-    
+
     Product:
       type: object
       required:
@@ -23,7 +23,7 @@ components:
           type: string
         product_price:
           type: number
-    
+
     Error:
       type: object
       properties:
