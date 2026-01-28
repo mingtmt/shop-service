@@ -1,6 +1,5 @@
 'use strict'
 
-const User = require('@models/user')
 const { findAllUsers, findUserById, updateUserById, deleteUserById } = require('@repositories/user')
 const { BadRequestError, NotFoundError } = require('@core/errorResponse')
 

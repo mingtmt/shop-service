@@ -11,8 +11,18 @@ const findUserById = async (userId, select = '') => {
   return await User.findById(userId).select(select)
 }
 
-const findUserByEmail = async (email) => {
-  return await User.findOne({ email })
+const findUserByEmail = async (email, select = '') => {
+  return await User.findOne({ email }).select(select)
+}
+
+const createUser = async ({ name, email, password, role = 'user' }) => {
+  const newUser = await User.create({
+    name,
+    email,
+    password,
+    role,
+  })
+  return newUser
 }
 
 const updateUserById = async ({ userId, updateData, isNew = true }) => {
@@ -30,6 +40,7 @@ module.exports = {
   findAllUsers,
   findUserById,
   findUserByEmail,
+  createUser,
   updateUserById,
   deleteUserById,
 }
