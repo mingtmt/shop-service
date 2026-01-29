@@ -1,6 +1,7 @@
 'use strict'
 
 const ProductFactory = require('@services/product/productFactory')
+const ProductService = require('@services/product_v2')
 const { OK, Created } = require('@core/successResponse')
 
 class ProductController {
@@ -12,7 +13,7 @@ class ProductController {
       thumbnail: thumbUrl,
     }
 
-    const product = await ProductFactory.createProduct(req.body.category, payload)
+    const product = await ProductService.createProduct(payload)
 
     req.fileProcessed = true
 

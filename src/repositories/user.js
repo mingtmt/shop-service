@@ -2,9 +2,23 @@
 
 const User = require('@models/user')
 
-const findAllUsers = async ({ filter = {}, limit = 50, page, sort = 'ctime', select = '' }) => {
-  const skip = (page - 1) * limit
-  return await User.find(filter).sort(sort).skip(skip).limit(limit).select(select)
+const findAllUsers = async ({
+  filter = {},
+  limit = 50,
+  page = 1,
+  sort = 'createdAt',
+  select = '',
+}) => {
+  const skip = (Number(page) - 1) * Number(limit)
+  const sortBy = sort === 'ctime' ? '_id' : sort
+
+  return await User.find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(Number(limit))
+    .select(select)
+    .lean()
+    .exec()
 }
 
 const findUserById = async (userId, select = '') => {

@@ -3,6 +3,22 @@
 const Product = require('@models/product')
 const { getSelectData, getUnSelectData } = require('@utils')
 
+const findProductById = async (id, select = '') => {
+  return await Product.findById(id).select(select)
+}
+
+const findProductBySlug = async (slug, select = '') => {
+  return await Product.findOne({ slug }).select(select)
+}
+
+const createProduct = async (payload) => {
+  return await Product.create(payload)
+}
+
+const createProductDetails = async (model, payload) => {
+  return await model.create(payload)
+}
+
 const queryProducts = async ({ query, limit, skip }) => {
   return await Product.find(query)
     .populate('createdBy', 'name email')
@@ -69,6 +85,10 @@ const updateProductById = async ({ id, payload, model, isNew = true }) => {
 }
 
 module.exports = {
+  findProductById,
+  findProductBySlug,
+  createProduct,
+  createProductDetails,
   queryProducts,
   publishProduct,
   unPublishProduct,

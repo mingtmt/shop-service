@@ -1,6 +1,6 @@
 'use strict'
 
-const UserService = require('@services/users')
+const UserService = require('@services/user')
 const { OK } = require('@core/successResponse')
 
 class UsersController {

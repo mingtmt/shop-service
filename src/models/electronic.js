@@ -5,12 +5,25 @@ const mongoose = require('mongoose')
 // Base Electronic Schema
 const electronicSchema = new mongoose.Schema(
   {
-    manufacturer: { type: String, required: true }, // Apple, Samsung
-    model: { type: String, required: true }, // iPhone 15 Pro
+    manufacturer: {
+      type: String,
+      required: true,
+    }, // Apple, Samsung
+    model: {
+      type: String,
+      required: true,
+    }, // iPhone 15 Pro
     releaseYear: Number,
     specs: { type: mongoose.Schema.Types.Mixed }, // sub information
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Created by is required'],
+    },
+    updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,
@@ -19,7 +32,7 @@ const electronicSchema = new mongoose.Schema(
   },
 )
 
-const Electronic = mongoose.model('Electronic', electronicSchema)
+const electronic = mongoose.model('Electronic', electronicSchema)
 
 electronicSchema.set('toJSON', {
   transform: (document, returnedObject) => {
@@ -30,7 +43,7 @@ electronicSchema.set('toJSON', {
 })
 
 // Smartphone Schema
-const Smartphone = Electronic.discriminator(
+const smartphone = electronic.discriminator(
   'Smartphone',
   new mongoose.Schema({
     os: { type: String, required: true }, // iOS, Android
@@ -40,7 +53,7 @@ const Smartphone = Electronic.discriminator(
 )
 
 // Tablet Schema
-const Tablet = Electronic.discriminator(
+const tablet = electronic.discriminator(
   'Tablet',
   new mongoose.Schema({
     isWifiOnly: { type: Boolean, default: true },
@@ -50,7 +63,7 @@ const Tablet = Electronic.discriminator(
 )
 
 // Laptop Schema
-const Laptop = Electronic.discriminator(
+const laptop = electronic.discriminator(
   'Laptop',
   new mongoose.Schema({
     processor: String, // Intel i9, M3 Max
@@ -61,8 +74,8 @@ const Laptop = Electronic.discriminator(
 )
 
 module.exports = {
-  Electronic,
-  Smartphone,
-  Tablet,
-  Laptop,
+  electronic,
+  smartphone,
+  tablet,
+  laptop,
 }

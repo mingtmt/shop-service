@@ -5,7 +5,7 @@ const { BadRequestError, NotFoundError } = require('@core/errorResponse')
 
 class UserService {
   static getAllUsers = async (filter = {}) => {
-    return await findAllUsers({ filter })
+    return await findAllUsers({ filter, select: '-password -__v -refreshToken' })
   }
 
   static getUserById = async (id) => {
