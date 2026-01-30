@@ -5,7 +5,7 @@ const { OK } = require('@core/successResponse')
 
 class UsersController {
   getAllUsers = async (req, res) => {
-    const users = await UserService.getAllUsers()
+    const users = await UserService.getAllUsers(req.query)
 
     new OK({
       message: 'Get all users successfully',

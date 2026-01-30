@@ -1,23 +1,23 @@
 'use strict'
 
-const { findUserById, findUserByEmail, createUser, updateUserById } = require('@repositories/user')
+const UserRepository = require('@repositories/user')
 const { BadRequestError, ConflictError, UnauthorizedError } = require('@core/errorResponse')
 const JWTHelper = require('@utils/jwt')
 
 class AuthService {
-  static register = async (userData) => {
+  static async register(userData) {
     if (!userData || typeof userData !== 'object') {
       throw new BadRequestError({ message: 'Invalid user data' })
     }
 
-    const { name, email, password } = userData
+    const { name, email, password, role } = userData
 
     if (!name || !email || !password) {
       throw new BadRequestError({ message: 'Name, email and password are required' })
     }
 
     const emailClean = email.toLowerCase().trim()
-    const existingUser = await findUserByEmail(emailClean)
+    const existingUser = await UserRepository.findByEmail(emailClean)
     if (existingUser) {
       throw new ConflictError({
         message: 'Email already exists',
@@ -28,10 +28,11 @@ class AuthService {
       })
     }
 
-    const newUser = await createUser({
+    const newUser = await UserRepository.create({
       name: name.trim(),
       email: emailClean,
       password,
+      role: role || 'user',
     })
 
     const tokens = JWTHelper.generateTokens({
@@ -40,7 +41,7 @@ class AuthService {
       role: newUser.role,
     })
 
-    await updateUserById({
+    await UserRepository.updateById({
       userId: newUser._id,
       updateData: { refreshToken: tokens.refreshToken },
     })
@@ -58,7 +59,7 @@ class AuthService {
       })
     }
 
-    const user = await findUserByEmail(email.toLowerCase(), '+password')
+    const user = await UserRepository.findByEmail(email.toLowerCase(), '+password')
 
     if (!user) {
       throw new UnauthorizedError({
@@ -89,7 +90,7 @@ class AuthService {
       role: user.role,
     })
 
-    await updateUserById({
+    await UserRepository.updateById({
       userId: user._id,
       updateData: { refreshToken: tokens.refreshToken },
     })
@@ -115,7 +116,7 @@ class AuthService {
       })
     }
 
-    const user = await findUserById(decoded.id, '+refreshToken')
+    const user = await UserRepository.findById(decoded.id, '+refreshToken')
 
     if (!user) {
       throw new UnauthorizedError({
@@ -137,7 +138,7 @@ class AuthService {
       role: user.role,
     })
 
-    await updateUserById({
+    await UserRepository.updateById({
       userId: user._id,
       updateData: { refreshToken: tokens.refreshToken },
     })
@@ -146,13 +147,13 @@ class AuthService {
   }
 
   static async logout(userId) {
-    const user = await findUserById(userId)
+    const user = await UserRepository.findById(userId)
 
     if (!user) {
       throw new UnauthorizedError({ message: 'User not found' })
     }
 
-    await updateUserById({
+    await UserRepository.updateById({
       userId: user._id,
       updateData: { refreshToken: undefined },
     })
@@ -161,7 +162,7 @@ class AuthService {
   }
 
   static async getCurrentUser(userId) {
-    const user = await findUserById(userId)
+    const user = await UserRepository.findById(userId)
 
     if (!user) {
       throw new UnauthorizedError({ message: 'User not found' })

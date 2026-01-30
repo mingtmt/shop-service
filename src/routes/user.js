@@ -3,7 +3,7 @@
 const express = require('express')
 const router = express.Router()
 const asyncHandler = require('@utils/asyncHandler')
-const usersController = require('@controllers/users')
+const usersController = require('@controllers/user')
 const { protect, restrictTo } = require('@middlewares/auth')
 
 //user

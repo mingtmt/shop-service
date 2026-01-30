@@ -5,7 +5,7 @@ const Smartphone = require('./smartphone')
 class ProductFactory {
   static productRegistry = {
     smartphone: Smartphone,
-    // Khi có loại mới, chỉ cần thêm dòng vào đây
+    // add new product type here
   }
 
   static async createProduct(type, payload) {

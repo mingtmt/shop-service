@@ -75,7 +75,7 @@ class ProductController {
   }
 
   getAllProducts = async (req, res) => {
-    const products = await ProductFactory.getAllProducts(req.query)
+    const products = await ProductService.getAllProducts(req.query)
 
     new OK({
       message: 'Get all products successfully',
