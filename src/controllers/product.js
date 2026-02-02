@@ -1,7 +1,7 @@
 'use strict'
 
-const ProductFactory = require('@services/product/productFactory')
-const ProductService = require('@services/product_v2')
+const ProductFactory = require('@services/product_will_remove/productFactory')
+const ProductService = require('@services/product')
 const { OK, Created } = require('@core/successResponse')
 
 class ProductController {

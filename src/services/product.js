@@ -1,6 +1,6 @@
 'use strict'
 
-const ProductFactory = require('./factory')
+const ProductFactory = require('./productFactory')
 const ProductRepository = require('@repositories/product_v2')
 
 class ProductService {

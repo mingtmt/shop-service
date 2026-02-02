@@ -1,7 +1,7 @@
 'use strict'
 
 const { smartphone } = require('@models/electronic')
-const Product = require('./base')
+const Product = require('./baseProduct')
 const { createProductDetails } = require('@repositories/product')
 
 class Smartphone extends Product {
