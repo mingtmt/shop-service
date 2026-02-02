@@ -11,6 +11,8 @@ class UsersController {
       message: 'Get all users successfully',
       data: users,
       metadata: {
+        limit: req.query.limit || 50,
+        page: req.query.page || 1,
         total: users.length,
       },
     }).send(res)

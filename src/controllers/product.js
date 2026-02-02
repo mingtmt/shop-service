@@ -5,24 +5,6 @@ const ProductService = require('@services/product')
 const { OK, Created } = require('@core/successResponse')
 
 class ProductController {
-  createProduct = async (req, res) => {
-    const thumbUrl = req.file ? req.file.path : null
-
-    const payload = {
-      ...req.body,
-      thumbnail: thumbUrl,
-    }
-
-    const product = await ProductService.createProduct(payload)
-
-    req.fileProcessed = true
-
-    new Created({
-      message: 'Product created successfully',
-      data: product,
-    }).send(res)
-  }
-
   getAllDraftProducts = async (req, res) => {
     new OK({
       message: 'Get all draft products successfully',
@@ -80,20 +62,43 @@ class ProductController {
     new OK({
       message: 'Get all products successfully',
       data: products,
+      metadata: {
+        limit: req.query.limit || 50,
+        page: req.query.page || 1,
+        total: products.length,
+      },
     }).send(res)
   }
 
-  getProductById = async (req, res) => {
-    const product = await ProductFactory.getProductById(req.params.id)
+  getProductBySlug = async (req, res) => {
+    const product = await ProductService.getProductBySlug(req.params.slug)
 
     new OK({
-      message: 'Get product by id successfully',
+      message: 'Get product by slug successfully',
+      data: product,
+    }).send(res)
+  }
+
+  createProduct = async (req, res) => {
+    const thumbUrl = req.file ? req.file.path : null
+
+    const payload = {
+      ...req.body,
+      thumbnail: thumbUrl,
+    }
+
+    const product = await ProductService.createProduct(payload)
+
+    req.fileProcessed = true
+
+    new Created({
+      message: 'Product created successfully',
       data: product,
     }).send(res)
   }
 
   updateProduct = async (req, res) => {
-    const product = await ProductFactory.updateProduct({ id: req.params.id, payload: req.body })
+    const product = await ProductService.updateProduct(req.params.id, req.body)
 
     new OK({
       message: 'Product updated successfully',

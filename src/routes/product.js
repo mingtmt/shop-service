@@ -11,7 +11,7 @@ const uploadImage = require('@middlewares/uploadImage')
 // guest
 router.get('/search/:keySearch', asyncHandler(productController.searchProducts))
 router.get('/', asyncHandler(productController.getAllProducts))
-router.get('/:id', asyncHandler(productController.getProductById))
+router.get('/:slug', asyncHandler(productController.getProductBySlug))
 
 //user
 router.use(protect)

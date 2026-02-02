@@ -11,6 +11,17 @@ class ProductRepository extends BaseRepository {
   async findBySlug(slug, select = '') {
     return await Product.findOne({ slug }).select(select)
   }
+
+  static async createModel({ model, payload }) {
+    return await model.create(payload)
+  }
+
+  static async createProductAttribute(model, id, attributes) {
+    return await model.create({
+      _id: id,
+      ...attributes,
+    })
+  }
 }
 
 module.exports = new ProductRepository()
