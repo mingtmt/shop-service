@@ -1,7 +1,7 @@
 'use strict'
 
 const ProductFactoryResolver = require('./product.factory')
-const ProductRepository = require('@repositories/product_v2')
+const ProductRepository = require('@repositories/product')
 const { NotFoundError } = require('@core/errorResponse')
 
 class ProductService {
@@ -36,9 +36,13 @@ class ProductService {
     return product
   }
 
+  static async searchProducts(query) {
+    const { keySearch } = query
+    return await ProductRepository.searchProducts(keySearch)
+  }
+
   static async createProduct(payload) {
-    const type = payload.category
-    return await ProductFactoryResolver.createProduct(type, payload)
+    return await ProductFactoryResolver.createProduct(payload.type, payload)
   }
 
   static async updateProduct(id, payload) {
@@ -47,8 +51,16 @@ class ProductService {
       throw new NotFoundError({ message: 'Product not found' })
     }
 
-    const type = payload.category
-    return await ProductFactoryResolver.updateProduct(type, id, payload)
+    return await ProductFactoryResolver.updateProduct(payload.type, id, payload)
+  }
+
+  static async deleteProduct(id, payload) {
+    const product = await ProductRepository.findById(id)
+    if (!product) {
+      throw new NotFoundError({ message: 'Product not found' })
+    }
+
+    return await ProductFactoryResolver.deleteProduct(payload.type, id)
   }
 }
 

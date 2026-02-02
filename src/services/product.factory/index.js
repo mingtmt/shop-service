@@ -21,6 +21,13 @@ class ProductFactoryResolver {
 
     return new productClass(payload).updateProduct(id)
   }
+
+  static async deleteProduct(type, id) {
+    const productClass = this.productRegistry[type]
+    if (!productClass) throw new Error(`Invalid Product Type: ${type}`)
+
+    return new productClass().deleteProduct(id)
+  }
 }
 
 module.exports = ProductFactoryResolver

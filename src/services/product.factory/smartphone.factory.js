@@ -3,13 +3,15 @@
 const { smartphone } = require('@models/electronic')
 const BaseProductFactory = require('./base-product.factory')
 const { removeUndefined, updateNestedObjectParser } = require('@utils')
-const ProductRepository = require('@repositories/product_v2')
+const ProductRepository = require('@repositories/product')
 
 class SmartphoneFactory extends BaseProductFactory {
   async createProduct() {
     const newProduct = await super.createProduct()
 
-    if (!newProduct) throw new Error('Create Base Product Error')
+    if (!newProduct) {
+      throw new Error('Create Base Product Error')
+    }
 
     const { attributes, createdBy, updatedBy } = this.payload
     const newSmartphonePayload = {
@@ -25,7 +27,7 @@ class SmartphoneFactory extends BaseProductFactory {
       throw new Error('Create New Smartphone Error')
     }
 
-    return newSmartphone
+    return newProduct
   }
 
   async updateProduct(id) {
@@ -42,6 +44,15 @@ class SmartphoneFactory extends BaseProductFactory {
     const updatedProduct = await super.updateProduct(id, updateNestedObjectParser(payload))
 
     return updatedProduct
+  }
+
+  async deleteProduct(id) {
+    const deletedSmartphone = await ProductRepository.deleteByModel(smartphone, id)
+    if (!deletedSmartphone) {
+      throw new Error('Delete Smartphone Error')
+    }
+
+    return await super.deleteProduct(id)
   }
 }
 

@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema(
       min: [0, 'Quantity cannot be negative'],
       default: 0,
     },
-    category: {
+    type: {
       type: String,
       required: [true, 'Category is required'],
       enum: ['smartphone', 'tablet', 'laptop'],
@@ -92,7 +92,7 @@ const productSchema = new mongoose.Schema(
 )
 
 // Index for search
-productSchema.index({ name: 'text', description: 'text' })
+productSchema.index({ name: 1, slug: 1 })
 
 // Auto generate slug
 productSchema.pre('save', function () {

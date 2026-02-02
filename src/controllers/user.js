@@ -1,7 +1,7 @@
 'use strict'
 
 const UserService = require('@services/user')
-const { OK } = require('@core/successResponse')
+const { OK, NoContent } = require('@core/successResponse')
 
 class UsersController {
   getAllUsers = async (req, res) => {
@@ -39,7 +39,7 @@ class UsersController {
   deleteUser = async (req, res) => {
     await UserService.deleteUser(req.params.id)
 
-    new OK({
+    new NoContent({
       message: 'User deleted successfully',
       data: null,
     }).send(res)

@@ -1,6 +1,6 @@
 'use strict'
 
-const ProductRepository = require('@repositories/product_v2')
+const ProductRepository = require('@repositories/product')
 
 class BaseProductFactory {
   constructor(payload) {
@@ -20,6 +20,10 @@ class BaseProductFactory {
     })
 
     return updatedProduct
+  }
+
+  async deleteProduct(id) {
+    return await ProductRepository.deleteById(id)
   }
 }
 
