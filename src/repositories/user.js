@@ -1,15 +1,15 @@
 'use strict'
 
-const User = require('@models/user')
+const user = require('@models/user')
 const BaseRepository = require('./base')
 
 class UserRepository extends BaseRepository {
   constructor() {
-    super(User)
+    super(user)
   }
 
   async findByEmail(email, select = '') {
-    return await User.findOne({ email }).select(select)
+    return await user.findOne({ email }).select(select)
   }
 }
 

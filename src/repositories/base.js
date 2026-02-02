@@ -27,8 +27,8 @@ class BaseRepository {
     return await this.model.create(payload)
   }
 
-  async updateById({ id, updateData, isNew = true }) {
-    return await this.model.findByIdAndUpdate(id, updateData, {
+  async updateById({ id, payload, isNew = true }) {
+    return await this.model.findByIdAndUpdate(id, payload, {
       new: isNew,
       runValidators: true,
     })

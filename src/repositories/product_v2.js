@@ -12,14 +12,14 @@ class ProductRepository extends BaseRepository {
     return await Product.findOne({ slug }).select(select)
   }
 
-  static async createModel({ model, payload }) {
+  async createByModel(model, payload) {
     return await model.create(payload)
   }
 
-  static async createProductAttribute(model, id, attributes) {
-    return await model.create({
-      _id: id,
-      ...attributes,
+  async updateByModel({ model, id, payload, isNew = true }) {
+    return await model.findByIdAndUpdate(id, payload, {
+      new: isNew,
+      runValidators: true,
     })
   }
 }

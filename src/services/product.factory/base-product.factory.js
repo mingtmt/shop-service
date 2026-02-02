@@ -13,14 +13,10 @@ class BaseProductFactory {
     return newProduct
   }
 
-  async createSpecificProduct(product_id) {
-    throw new Error("Method 'createSpecificProduct' must be implemented")
-  }
-
-  async updateProduct(id) {
+  async updateProduct(id, payload) {
     const updatedProduct = await ProductRepository.updateById({
       id,
-      updateData: this.payload,
+      payload: payload,
     })
 
     return updatedProduct
