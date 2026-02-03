@@ -67,11 +67,10 @@ class ProductController {
   }
 
   deleteProduct = async (req, res) => {
-    const product = await ProductService.deleteProduct(req.params.id, req.body)
+    await ProductService.deleteProduct(req.params.id, req.body)
 
     new NoContent({
       message: 'Product deleted successfully',
-      data: product,
     }).send(res)
   }
 }

@@ -8,7 +8,10 @@ class ProductService {
   static async getAllProducts(query) {
     const { page, limit, sort, ...filter } = query
     return await ProductRepository.findAll({
-      filter,
+      filter: {
+        isPublished: true,
+        ...filter,
+      },
       page: parseInt(page) || 1,
       limit: parseInt(limit) || 50,
       sort: sort || 'createdAt',

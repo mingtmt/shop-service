@@ -41,7 +41,6 @@ class UsersController {
 
     new NoContent({
       message: 'User deleted successfully',
-      data: null,
     }).send(res)
   }
 }
