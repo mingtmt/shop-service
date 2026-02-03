@@ -1,7 +1,7 @@
 'use strict'
 
 const JWTHelper = require('@utils/jwt')
-const User = require('@models/user')
+const UserRepository = require('@repositories/user')
 const { UnauthorizedError, ForbiddenError } = require('@core/errorResponse')
 
 const protect = async (req, res, next) => {
@@ -36,7 +36,7 @@ const protect = async (req, res, next) => {
     }
 
     // Check if user still exists
-    const user = await User.findById(decoded.id).select('+passwordChangedAt')
+    const user = await UserRepository.findById(decoded.id, '+passwordChangeAt')
 
     if (!user) {
       throw new UnauthorizedError({

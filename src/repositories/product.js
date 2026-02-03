@@ -38,6 +38,20 @@ class ProductRepository extends BaseRepository {
   async deleteByModel(model, id) {
     return await model.findByIdAndDelete(id)
   }
+
+  async checkProductInCart(products) {
+    return await Promise.all(
+      products.map(async (product) => {
+        const foundProduct = await this.findById(product.productId)
+        if (foundProduct) {
+          return {
+            ...product,
+            price: foundProduct.price,
+          }
+        }
+      }),
+    )
+  }
 }
 
 module.exports = new ProductRepository()
