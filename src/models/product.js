@@ -37,12 +37,6 @@ const productSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    stock: {
-      type: Number,
-      required: true,
-      min: [0, 'Quantity cannot be negative'],
-      default: 0,
-    },
     type: {
       type: String,
       required: [true, 'Category is required'],

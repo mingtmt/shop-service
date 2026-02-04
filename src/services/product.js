@@ -1,5 +1,6 @@
 'use strict'
 
+const InventoryRepository = require('./inventory')
 const ProductFactoryResolver = require('./product.factory')
 const ProductRepository = require('@repositories/product')
 const { NotFoundError } = require('@core/errorResponse')
@@ -45,7 +46,14 @@ class ProductService {
   }
 
   static async createProduct(payload) {
-    return await ProductFactoryResolver.createProduct(payload.type, payload)
+    const newProduct = await ProductFactoryResolver.createProduct(payload.type, payload)
+
+    await InventoryRepository.insertInventory({
+      productId: newProduct._id,
+      stock: payload.stock,
+    })
+
+    return newProduct
   }
 
   static async updateProduct(id, payload) {

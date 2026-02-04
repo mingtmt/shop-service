@@ -1,16 +1,17 @@
 'use strict'
 
 const { smartphone } = require('@models/electronic')
-const BaseProductFactory = require('./base-product.factory')
-const { removeUndefined, updateNestedObjectParser } = require('@utils')
 const ProductRepository = require('@repositories/product')
+const BaseProductFactory = require('./base-product.factory')
+const { BadRequestError } = require('@core/errorResponse')
+const { removeUndefined, updateNestedObjectParser } = require('@utils')
 
 class SmartphoneFactory extends BaseProductFactory {
   async createProduct() {
     const newProduct = await super.createProduct()
 
     if (!newProduct) {
-      throw new Error('Create Base Product Error')
+      throw new BadRequestError('Create Base Product Error')
     }
 
     const { attributes, createdBy, updatedBy } = this.payload
@@ -24,7 +25,7 @@ class SmartphoneFactory extends BaseProductFactory {
     const newSmartphone = await ProductRepository.createByModel(smartphone, newSmartphonePayload)
     if (!newSmartphone) {
       await ProductRepository.deleteById(newProduct._id)
-      throw new Error('Create New Smartphone Error')
+      throw new BadRequestError('Create New Smartphone Error')
     }
 
     return newProduct
@@ -49,7 +50,7 @@ class SmartphoneFactory extends BaseProductFactory {
   async deleteProduct(id) {
     const deletedSmartphone = await ProductRepository.deleteByModel(smartphone, id)
     if (!deletedSmartphone) {
-      throw new Error('Delete Smartphone Error')
+      throw new BadRequestError('Delete Smartphone Error')
     }
 
     return await super.deleteProduct(id)

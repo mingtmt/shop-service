@@ -3,7 +3,7 @@
 const express = require('express')
 const router = express.Router()
 const asyncHandler = require('@utils/asyncHandler')
-const checkoutController = require('@controllers/checkout')
+const checkoutController = require('@controllers/order')
 const { protect } = require('@middlewares/auth')
 
 // user

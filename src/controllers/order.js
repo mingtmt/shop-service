@@ -1,6 +1,6 @@
 'use strict'
 
-const CheckoutService = require('@services/checkout')
+const CheckoutService = require('@services/order')
 const { OK } = require('@core/successResponse')
 
 class CheckoutController {

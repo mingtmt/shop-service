@@ -16,6 +16,7 @@ const inventorySchema = new mongoose.Schema(
     stock: {
       type: Number,
       required: true,
+      min: [0, 'Quantity invalid'],
     },
     reservations: {
       type: Array,
