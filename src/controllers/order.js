@@ -4,8 +4,8 @@ const CheckoutService = require('@services/order')
 const { OK } = require('@core/successResponse')
 
 class CheckoutController {
-  checkoutReview = async (req, res) => {
-    const checkout = await CheckoutService.checkoutReview({
+  orderReview = async (req, res) => {
+    const orderReview = await CheckoutService.orderReview({
       userId: req.user.id,
       cartId: req.body.cartId,
       products: req.body.products,
@@ -13,7 +13,7 @@ class CheckoutController {
 
     new OK({
       message: 'Checkout review success',
-      data: checkout,
+      data: orderReview,
     }).send(res)
   }
 }

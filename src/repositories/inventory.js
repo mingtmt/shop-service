@@ -17,14 +17,14 @@ class InventoryRepository extends BaseRepository {
   }
 
   async addStockToInventory({ productId, location = 'warehouse', stock = 0 }) {
-    const query = { productId },
-      update = { $inc: { stock }, $set: { location } },
-      options = { upsert: true, new: true }
+    const query = { productId }
+    const update = { $inc: { stock }, $set: { location } }
+    const options = { upsert: true, new: true }
 
     return await Inventory.findOneAndUpdate(query, update, options)
   }
 
-  async resevationInventory({ productId, cartId, quantity }) {
+  async reservationInventory({ productId, cartId, quantity }) {
     const query = {
       productId,
       stock: { $gte: quantity }, // check if stock is enough

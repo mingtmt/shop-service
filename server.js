@@ -5,6 +5,7 @@ const app = require('./src/app')
 const env = require('./src/configs/env')
 const logger = require('./src/configs/logger')
 const db = require('./src/configs/database')
+require('./src/configs/redis')
 const { checkOverload } = require('./src/helpers/checkConnect')
 
 let server

@@ -2,10 +2,13 @@
 
 const CartRepository = require('@repositories/cart')
 const ProductRepository = require('@repositories/product')
+const OrderRepository = require('@repositories/order')
+const InventoryService = require('@services/inventory')
+const CartService = require('@services/cart')
 const { NotFoundError, BadRequestError } = require('@core/errorResponse')
 
 class CheckoutService {
-  static async checkoutReview({ userId, cartId, products }) {
+  static async orderReview({ userId, cartId, products }) {
     const foundCart = await CartRepository.findById(cartId)
     if (!foundCart) {
       throw new NotFoundError({ message: 'Cart not found' })
@@ -15,12 +18,12 @@ class CheckoutService {
       throw new NotFoundError({ message: 'Cart is not active' })
     }
 
-    const productInCart = await ProductRepository.checkProductInCart(products)
-    if (!productInCart || productInCart.length === 0) {
+    const productsInCart = await ProductRepository.checkProductInCart(products)
+    if (!productsInCart || productsInCart.length === 0) {
       throw new BadRequestError('Order wrong!!!')
     }
 
-    const totalPrice = productInCart.reduce((acc, product) => {
+    const totalPrice = productsInCart.reduce((acc, product) => {
       return acc + product.price * product.quantity
     }, 0)
 
@@ -32,7 +35,7 @@ class CheckoutService {
     const totalCheckout = totalPrice + feeShip - totalDiscount
 
     return {
-      productInCart,
+      productsInCart,
       checkoutOrder: {
         totalPrice,
         feeShip,
@@ -40,6 +43,45 @@ class CheckoutService {
         totalCheckout,
       },
     }
+  }
+
+  static async orderByUser({ userId, cartId, products }) {
+    const { productsInCart, checkoutOrder } = await this.orderReview({
+      userId,
+      cartId,
+      products,
+    })
+
+    const acquiredProducts = []
+
+    for (let i = 0; i < productsInCart.length; i++) {
+      const { productId, quantity } = products[i]
+
+      const keyLock = await InventoryService.reservationInventory({
+        productId,
+        quantity,
+        cartId,
+      })
+
+      if (keyLock) {
+        acquiredProducts.push(products[i])
+      }
+    }
+
+    const newOrder = await OrderRepository.create({
+      userId: userId,
+      checkout: checkoutOrder,
+      products: productsInCart,
+    })
+
+    if (newOrder) {
+      await CartService.deleteCartItems({
+        userId,
+        productIds: productsInCart.map((p) => p.productId),
+      })
+    }
+
+    return newOrder
   }
 }
 

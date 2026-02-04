@@ -53,8 +53,8 @@ class CartService {
     return await CartRepository.checkProductInCartAndSetQuantity(userId, product)
   }
 
-  static async deleteCartItem(userId, productId) {
-    return await CartRepository.deleteCartItem(userId, productId)
+  static async deleteCartItems(userId, productIds) {
+    return await CartRepository.deleteCartItem(userId, productIds)
   }
 
   static async getListCartItems(userId) {

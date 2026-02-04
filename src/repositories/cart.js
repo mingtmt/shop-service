@@ -56,12 +56,12 @@ class CartRepository extends BaseRepository {
     return await Cart.findOneAndUpdate(query, update, { new: true })
   }
 
-  async deleteCartItem(userId, productId) {
-    const query = { userId, state: 'active' }
+  static async deleteUserCartItems(userId, productIds) {
+    const query = { cart_userId: userId, cart_state: 'active' }
     const updateSet = {
       $pull: {
-        products: {
-          productId: productId,
+        cart_products: {
+          productId: { $in: productIds },
         },
       },
     }

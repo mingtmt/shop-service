@@ -23,7 +23,7 @@ class CartController {
   }
 
   deleteCartItem = async (req, res) => {
-    await CartService.deleteCartItem(req.user.id, req.body.productId)
+    await CartService.deleteCartItems(req.user.id, req.body.productIds)
 
     new NoContent({
       message: 'Delete Cart success',
