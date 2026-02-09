@@ -1,11 +1,11 @@
 'use strict'
 
-const Order = require('@models/order')
+const order = require('@models/order')
 const BaseRepository = require('./base')
 
 class OrderRepository extends BaseRepository {
   constructor() {
-    super(Order)
+    super(order)
   }
 }
 

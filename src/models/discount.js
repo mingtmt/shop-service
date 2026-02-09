@@ -69,6 +69,6 @@ const discountSchema = new mongoose.Schema(
   },
 )
 
-const Discount = mongoose.model('Discount', discountSchema)
+const discount = mongoose.model('Discount', discountSchema)
 
-module.exports = Discount
+module.exports = discount

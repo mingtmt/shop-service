@@ -1,15 +1,15 @@
 'use strict'
 
-const Discount = require('@models/discount')
+const discount = require('@models/discount')
 const BaseRepository = require('./base')
 
 class DiscountRepository extends BaseRepository {
   constructor() {
-    super(Discount)
+    super(discount)
   }
 
   async findByCode(code, select = '') {
-    return await Discount.findOne({ code }).select(select)
+    return await discount.findOne({ code }).select(select)
   }
 }
 

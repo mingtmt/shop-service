@@ -1,15 +1,15 @@
 'use strict'
 
-const Inventory = require('@models/inventory')
+const inventory = require('@models/inventory')
 const BaseRepository = require('./base')
 
 class InventoryRepository extends BaseRepository {
   constructor() {
-    super(Inventory)
+    super(inventory)
   }
 
   async insertInventory({ productId, location = 'warehouse', stock = 0 }) {
-    return await Inventory.create({
+    return await inventory.create({
       productId,
       location,
       stock,
@@ -21,7 +21,7 @@ class InventoryRepository extends BaseRepository {
     const update = { $inc: { stock }, $set: { location } }
     const options = { upsert: true, new: true }
 
-    return await Inventory.findOneAndUpdate(query, update, options)
+    return await inventory.findOneAndUpdate(query, update, options)
   }
 
   async reservationInventory({ productId, cartId, quantity }) {
@@ -43,7 +43,7 @@ class InventoryRepository extends BaseRepository {
 
     const options = { new: true, upsert: true }
 
-    return await Inventory.findOneAndUpdate(query, update, options)
+    return await inventory.findOneAndUpdate(query, update, options)
   }
 }
 

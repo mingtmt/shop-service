@@ -1,19 +1,19 @@
 'use strict'
 
-const Cart = require('@models/cart')
+const cart = require('@models/cart')
 const BaseRepository = require('./base')
 
 class CartRepository extends BaseRepository {
   constructor() {
-    super(Cart)
+    super(cart)
   }
 
   async findByUserId(userId) {
-    return await Cart.findOne({ userId })
+    return await cart.findOne({ userId })
   }
 
   async createCart(userId, product) {
-    return await Cart.create({
+    return await cart.create({
       userId: userId,
       state: 'active',
       products: [product],
@@ -32,7 +32,7 @@ class CartRepository extends BaseRepository {
       $inc: { 'products.$.quantity': quantity }, // increment quantity
     }
 
-    return await Cart.findOneAndUpdate(query, update, { new: true })
+    return await cart.findOneAndUpdate(query, update, { new: true })
   }
 
   // check if product is in cart, if yes, set quantity
@@ -47,13 +47,13 @@ class CartRepository extends BaseRepository {
       $set: { 'products.$.quantity': quantity }, // set quantity
     }
 
-    return await Cart.findOneAndUpdate(query, update, { new: true })
+    return await cart.findOneAndUpdate(query, update, { new: true })
   }
 
   async pushProductToCart({ userId, product }) {
     const query = { userId: userId, state: 'active' }
     const update = { $push: { products: product } }
-    return await Cart.findOneAndUpdate(query, update, { new: true })
+    return await cart.findOneAndUpdate(query, update, { new: true })
   }
 
   static async deleteUserCartItems(userId, productIds) {
@@ -65,7 +65,7 @@ class CartRepository extends BaseRepository {
         },
       },
     }
-    return await Cart.updateOne(query, updateSet)
+    return await cart.updateOne(query, updateSet)
   }
 }
 

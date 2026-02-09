@@ -35,7 +35,7 @@ const updateNestedObjectParser = (obj) => {
 }
 
 const convertToMongoObjectId = (id) => {
-  return mongoose.Types.ObjectId(id)
+  return new mongoose.Types.ObjectId(id)
 }
 
 module.exports = {
