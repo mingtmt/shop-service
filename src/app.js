@@ -5,17 +5,25 @@ require('module-alias/register')
 const express = require('express')
 const swaggerUi = require('swagger-ui-express')
 const swaggerSpecs = require('@configs/swagger')
-const morgan = require('morgan')
+const cors = require('cors')
 const helmet = require('helmet')
 const compression = require('compression')
 const routes = require('@routes')
+const loggerMiddleware = require('@middlewares/logger')
 const { errorHandler, notFoundHandler } = require('@middlewares/errorHandler')
 
 const app = express()
 
 // middlewares
 app.use(express.json())
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
+app.use(
+  cors({
+    origin: process.env.URL_CLIENT || 'http://localhost:8000',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+  }),
+)
+app.use(loggerMiddleware)
 app.use(helmet())
 app.use(compression())
 

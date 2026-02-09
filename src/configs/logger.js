@@ -3,10 +3,20 @@
 const winston = require('winston')
 const LokiTransport = require('winston-loki')
 const { GRAFANA_URL, GRAFANA_ID, GRAFANA_WRITE_TOKEN } = require('./env')
+const { combine, timestamp, json, printf, colorize } = winston.format
+
+const devFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} [${level}]: ${message}`
+})
 
 const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+  level: process.env.LOG_LEVEL || 'info',
+  format: combine(
+    timestamp({
+      format: 'YYYY-MM-DD HH:mm:ss',
+    }),
+    json(),
+  ),
   defaultMeta: { service: 'nodejs-backend' },
   transports: [
     new winston.transports.Console({
@@ -25,5 +35,13 @@ const logger = winston.createLogger({
     }),
   ],
 })
+
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: combine(colorize(), devFormat),
+    }),
+  )
+}
 
 module.exports = logger
