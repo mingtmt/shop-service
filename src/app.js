@@ -18,7 +18,7 @@ const app = express()
 app.use(express.json())
 app.use(
   cors({
-    origin: process.env.URL_CLIENT || 'http://localhost:8000',
+    origin: process.env.URL_CLIENT || 'http://localhost:5173',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
   }),

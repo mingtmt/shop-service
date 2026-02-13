@@ -21,6 +21,10 @@ class CommentRepository extends BaseRepository {
   async updateMany(filter, payload) {
     return await comment.updateMany(filter, payload)
   }
+
+  async deleteMany(filter) {
+    return await comment.deleteMany(filter)
+  }
 }
 
 module.exports = new CommentRepository()

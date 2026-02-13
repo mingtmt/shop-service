@@ -1,7 +1,7 @@
 'use strict'
 
 const CommentService = require('@services/comment')
-const { Created, OK } = require('@core/successResponse')
+const { Created, OK, NoContent } = require('@core/successResponse')
 
 class CommentController {
   createComment = async (req, res) => {
@@ -19,6 +19,14 @@ class CommentController {
     return new OK({
       message: 'Get comments successfully',
       data: comments,
+    }).send(res)
+  }
+
+  deleteComments = async (req, res) => {
+    await CommentService.deleteComments(req.body)
+
+    return new NoContent({
+      message: 'Comment deleted successfully',
     }).send(res)
   }
 }

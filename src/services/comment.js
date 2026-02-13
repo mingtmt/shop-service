@@ -78,6 +78,43 @@ class CommentService {
 
     return comments
   }
+
+  static async deleteComments(query) {
+    const { productId, commentId } = query
+
+    const comment = await CommentRepository.findById(commentId)
+    if (!comment) {
+      throw new NotFoundError({ message: 'Comment not found' })
+    }
+
+    const leftValue = comment.left
+    const rightValue = comment.right
+
+    const width = rightValue - leftValue + 1
+
+    await CommentRepository.deleteMany({
+      productId,
+      left: { $gte: leftValue },
+      right: { $lte: rightValue },
+    })
+
+    // update other comments
+    await CommentRepository.updateMany(
+      {
+        productId,
+        right: { $gt: rightValue },
+      },
+      { $inc: { right: -width } },
+    )
+
+    await CommentRepository.updateMany(
+      {
+        productId,
+        left: { $gt: leftValue },
+      },
+      { $inc: { left: -width } },
+    )
+  }
 }
 
 module.exports = CommentService

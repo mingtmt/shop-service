@@ -10,5 +10,6 @@ const { protect } = require('@middlewares/auth')
 router.use(protect)
 router.post('/', asyncHandler(commentController.createComment))
 router.get('/', asyncHandler(commentController.getCommentsByParentId))
+router.delete('/', asyncHandler(commentController.deleteComments))
 
 module.exports = router
