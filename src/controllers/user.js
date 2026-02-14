@@ -19,7 +19,7 @@ class UsersController {
   }
 
   getUserById = async (req, res) => {
-    const user = await UserService.getUserById(req.params.id)
+    const user = await UserService.getUserById(req.user.id)
 
     new OK({
       message: 'Get user successfully',
@@ -28,7 +28,7 @@ class UsersController {
   }
 
   updateUser = async (req, res) => {
-    const updatedUser = await UserService.updateUser(req.params.id, req.body)
+    const updatedUser = await UserService.updateUser(req.user.id, req.body)
 
     new OK({
       message: 'User updated successfully',

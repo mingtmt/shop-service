@@ -9,7 +9,7 @@ const { protect, restrictTo } = require('@middlewares/auth')
 //user
 router.use(protect)
 router.get('/:id', asyncHandler(usersController.getUserById))
-router.patch('/:id', asyncHandler(usersController.updateUser))
+router.patch('/', asyncHandler(usersController.updateUser))
 
 // admin
 router.use(restrictTo('admin'))

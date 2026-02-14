@@ -36,7 +36,7 @@ class UserService {
 
     const user = await UserRepository.updateById({
       id,
-      updateData,
+      payload: updateData,
     })
 
     if (!user) throw new NotFoundError({ message: 'User not found' })
