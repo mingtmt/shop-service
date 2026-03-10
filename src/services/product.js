@@ -1,9 +1,10 @@
 'use strict'
 
-const InventoryRepository = require('./inventory')
 const ProductFactoryResolver = require('./product.factory')
 const ProductRepository = require('@repositories/product')
+const InventoryRepository = require('@repositories/inventory')
 const { NotFoundError } = require('@core/errorResponse')
+const NotificationService = require('./notification')
 
 class ProductService {
   static async getAllProducts(query) {
@@ -51,6 +52,14 @@ class ProductService {
     await InventoryRepository.insertInventory({
       productId: newProduct._id,
       stock: payload.stock,
+    })
+
+    await NotificationService.pushNotiToSystem({
+      type: 'SHOP-001',
+      receiverId: 1,
+      options: {
+        name: newProduct.name,
+      },
     })
 
     return newProduct
