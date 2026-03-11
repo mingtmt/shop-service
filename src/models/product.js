@@ -63,12 +63,6 @@ const productSchema = new mongoose.Schema(
       index: true,
       select: false,
     },
-    isPublished: {
-      type: Boolean,
-      default: false,
-      index: true,
-      select: false,
-    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

@@ -18,6 +18,20 @@ class ProductController {
     }).send(res)
   }
 
+  getAllProductsForAdmin = async (req, res) => {
+    const products = await ProductService.getAllProductsForAdmin(req.query)
+
+    new OK({
+      message: 'Get all products for admin successfully',
+      data: products,
+      metadata: {
+        limit: req.query.limit || 50,
+        page: req.query.page || 1,
+        total: products.length,
+      },
+    }).send(res)
+  }
+
   getProductBySlug = async (req, res) => {
     const product = await ProductService.getProductBySlug(req.params.slug)
 
@@ -67,7 +81,7 @@ class ProductController {
   }
 
   deleteProduct = async (req, res) => {
-    await ProductService.deleteProduct(req.params.id, req.body)
+    await ProductService.deleteProduct(req.params.id)
 
     new NoContent({
       message: 'Product deleted successfully',

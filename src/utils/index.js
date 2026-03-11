@@ -2,8 +2,12 @@
 
 const mongoose = require('mongoose')
 
-const getSelectData = (select = []) => {
-  return Object.fromEntries(select.map((item) => [item, 1]))
+const getSelectData = (select) => {
+  if (!select) return null
+
+  const selectArray = typeof select === 'string' ? select.split(' ') : select
+
+  return Object.fromEntries(selectArray.filter(String).map((el) => [el, 1]))
 }
 
 const getUnSelectData = (select = []) => {

@@ -21,6 +21,18 @@ class ProductService {
     })
   }
 
+  static async getAllProductsForAdmin(query) {
+    const { page, limit, sort, ...filter } = query
+
+    return await ProductRepository.getAllProductsWithInventory({
+      filter: filter,
+      page: parseInt(page) || 1,
+      limit: parseInt(limit) || 50,
+      sort: sort || 'createdAt',
+      select: '_id thumbnail name price stock type isDraft',
+    })
+  }
+
   static async getProductById(id) {
     const product = await ProductRepository.findById(id)
 
@@ -74,13 +86,14 @@ class ProductService {
     return await ProductFactoryResolver.updateProduct(payload.type, id, payload)
   }
 
-  static async deleteProduct(id, payload) {
+  static async deleteProduct(id) {
     const product = await ProductRepository.findById(id)
     if (!product) {
       throw new NotFoundError({ message: 'Product not found' })
     }
+    const type = product.type
 
-    return await ProductFactoryResolver.deleteProduct(payload.type, id)
+    return await ProductFactoryResolver.deleteProduct(type, id)
   }
 }
 
