@@ -1,5 +1,21 @@
 'use strict'
 
+const moduleAlias = require('module-alias')
+const path = require('path')
+
+moduleAlias.addAliases({
+  '@configs': path.join(__dirname, 'src/configs'),
+  '@controllers': path.join(__dirname, 'src/controllers'),
+  '@core': path.join(__dirname, 'src/core'),
+  '@helpers': path.join(__dirname, 'src/helpers'),
+  '@middlewares': path.join(__dirname, 'src/middlewares'),
+  '@models': path.join(__dirname, 'src/models'),
+  '@repositories': path.join(__dirname, 'src/repositories'),
+  '@routes': path.join(__dirname, 'src/routes'),
+  '@services': path.join(__dirname, 'src/services'),
+  '@utils': path.join(__dirname, 'src/utils'),
+})
+
 const mongoose = require('mongoose')
 const app = require('./src/app')
 const env = require('./src/configs/env')
